@@ -1,0 +1,49 @@
+{{#unless user._id}}
+<div class="text-end">
+    <a class="btn  active" href="/login">Ingresar <i class="fas fa-user-alt"></i></a>
+</div>
+{{/unless}}
+
+<div class="text-center ">
+    <img src="/img/logo.png" class="img-fluid " style="width: 200px; margin-top: 10px;">
+</div>
+<nav class="navbar navbar-expand-lg navbar-light ">
+
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/"><strong>Inicio</strong></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/catalogo"><strong>Catalogo</strong></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/ofertas"><strong>Ofertas</strong></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/caballeros"><strong>Caballeros</strong></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/damas"><strong>Damas</strong></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/contacto"><strong>Contacto</strong></a>
+                </li>
+                {{#if user._id}}
+                <li class="nav-item">
+                    <a class="nav-link active" href="/perfil"><strong>Mi Perfil</strong></a>
+                </li>
+                 <li class="nav-item">
+                    <a class="nav-link active" href="/carrito"><strong>Carrito</strong></a>
+                </li>
+                {{/if}}
+            </ul>
+
+        </div>
+    </div>
+</nav>
