@@ -16,12 +16,17 @@ module.exports = (app) => {
 
     });
 
-    app.get('/administrar', isAuthenticated, (req,res)=>{
+    app.get('/administrar', (req,res)=>{
         
-        res.render("administrador.hbs", {user:req.session})
+        res.render("administrador/index.hbs", {user:req.session})
 
     });
 
+    app.get('/administrar/usuarios', usuarios.all);
+    app.delete('/administrar/usuarios', usuarios.eliminar);
+    app.get('/administrar/usuarios/:id', usuarios.ver);
+    app.post('/administrar/usuarios/:id', usuarios.actualizar);
+    
     app.get('/login',notAuthenticated ,usuarios.login);
     app.post('/login',notAuthenticated,usuarios.ingresar);
     app.get('/registro',notAuthenticated,usuarios.registro);

@@ -1,0 +1,33 @@
+<div class="table-responsive " style="margin-top: auto;">
+    <table id="table_usuarios" width="100%" cellspacing="0" class="table table-hover ">
+        <thead>
+            <tr>
+                <th class="text-center" scope="col">Cédula</th>
+                <th class="text-center" scope="col">Nombres</th>
+                <th class="text-center" scope="col">Apellidos</th>
+                <th class="text-center" scope="col">Correo</th>
+                <th class="text-center" scope="col">Rol</th>
+                <th class="text-center" scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody class="text-center">
+            {{#each usuarios}}
+            <tr>
+                <th scope="row">{{cedula}}</th>
+                <td>{{nombres}}</td>
+                <td>{{apellidos}}</td>
+                <td>{{correo}}</td>
+                <td>{{tipo}}</td>
+                <td><a type="button" href="/administrar/usuarios/{{_id}}" target="__blank" class="btn btn-primary"><i class="fas fa-eye"></i></a> <a
+                        type="button" class="btn btn-danger btn-eliminar"data-cedula="{{cedula}}" ><i class="fas fa-trash" ></i></a></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+
+<script src="/js/table_usuarios.js"></script>

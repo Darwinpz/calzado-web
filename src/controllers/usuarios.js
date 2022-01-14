@@ -118,8 +118,18 @@ ctrl_user.actualizar = async (req,res)=>{
 
     const { cedula, nombres, apellidos, genero, correo, telefono } = req.body;
 
-    const usuario = await User.findOne({ '_id': req.session._id }).select("-clave");
+    var usuario;
 
+    if(req.params.id){
+
+        usuario = await User.findOne({ '_id': req.params.id }).select("-clave");
+
+    }else{
+
+        usuario = await User.findOne({ '_id': req.session._id }).select("-clave");
+
+    }
+    
     if (usuario) {
 
         const validar = await User.find({ $or: [{ 'cedula': cedula }, { 'correo': correo }] });
@@ -156,8 +166,44 @@ ctrl_user.carrito = async (req,res)=>{
 
     res.render("carrito.hbs", {user:req.session})
 
+};  
+
+
+ctrl_user.all = async (req,res)=>{
+
+    const usuarios = await User.find({ $nor: [{'_id':req.session._id}]}).select("-clave");
+
+    res.render("administrador/usuarios.hbs", {user:req.session, usuarios})
+
 };
 
+ctrl_user.ver = async (req,res)=>{
+
+    const id = req.params.id
+
+    const usuario = await User.findOne({'_id':id}).select("-clave");
+
+    res.render("perfil.hbs", {user:req.session, usuario})
+
+};
+
+ctrl_user.eliminar = async (req, res) => {
+
+    const user = await User.findOne({ 'cedula': req.body.cedula }).select("-clave");
+
+    if (user) {
+
+        await user.remove();
+
+        res.json(true);
+
+    } else {
+
+        res.json(false);
+
+    }
+
+}
 
 ctrl_user.logout = async (req,res)=>{
 
