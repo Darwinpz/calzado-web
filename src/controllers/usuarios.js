@@ -108,16 +108,9 @@ ctrl_user.guardar = async (req,res)=>{
 
 ctrl_user.perfil = async (req,res)=>{
 
-    if(req.session._id == null){
-
-        res.redirect("/")
-
-    }else{
-
-        const usuario = await User.findOne({ '_id': req.session._id }).select("-clave");
+    const usuario = await User.findOne({ '_id': req.session._id }).select("-clave");
         
-        res.render("perfil.hbs", {user:req.session, usuario})
-    }
+    res.render("perfil.hbs", {user:req.session, usuario})
 
 };
 
@@ -161,18 +154,17 @@ ctrl_user.actualizar = async (req,res)=>{
 
 ctrl_user.carrito = async (req,res)=>{
 
-    if(req.session._id == null){
-
-        res.redirect("/")
-
-    }else{
-        
-        res.render("carrito.hbs", {user:req.session})
-
-    }
+    res.render("carrito.hbs", {user:req.session})
 
 };
 
+
+ctrl_user.logout = async (req,res)=>{
+
+    req.session.destroy();
+    res.redirect('/');
+
+};
 
 
 

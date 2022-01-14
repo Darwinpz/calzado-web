@@ -1,8 +1,10 @@
-{{#unless user._id}}
 <div class="text-end">
-    <a class="btn  active" href="/login">Ingresar <i class="fas fa-user-alt"></i></a>
+    {{#unless user._id}}
+    <a class="btn  active" href="/login">Ingresar <i class="fa fa-sign-in"></i></a>
+    {{else}}
+    <a class="btn  active" href="/logout">Cerrar Sesión <i class="fa fa-sign-out"></i></a>
+    {{/unless}}
 </div>
-{{/unless}}
 
 <div class="text-center ">
     <img src="/img/logo.png" class="img-fluid " style="width: 200px; margin-top: 10px;">
@@ -38,10 +40,23 @@
                 <li class="nav-item">
                     <a class="nav-link active" href="/perfil"><strong>Mi Perfil</strong></a>
                 </li>
-                 <li class="nav-item">
-                    <a class="nav-link active" href="/carrito"><strong>Carrito</strong></a>
-                </li>
+
+                    {{#if (tipo_usuario user.tipo) }}
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/administrar"><strong>Administración</strong></a>
+                    </li>
+
+                    {{else}}
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/carrito"><strong>Carrito</strong></a>
+                    </li>
+
+                    {{/if}}
+
                 {{/if}}
+
             </ul>
 
         </div>

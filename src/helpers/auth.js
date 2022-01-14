@@ -2,23 +2,26 @@ const ctrl = {};
 
 ctrl.isAuthenticated = (req,res,next)=>{
     
-    if(req.session.username != null){
+    if(req.session._id != null){
 
         return next();
     }
     
-    res.redirect('/');
+    res.redirect('/login');
 
 };
 
 ctrl.notAuthenticated = (req,res,next)=>{
 
-    if(req.session.username != null){
+    if(req.session._id != null){
 
         res.redirect('/');
+
+    }else{
+
+        return next();
+
     }
-    
-    return next();
 
 };
 

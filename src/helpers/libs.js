@@ -7,5 +7,12 @@ helpers.select = (selected, option)=>{
 
 }
 
+helpers.tipo_usuario = (tipo)=>{
+
+    if(tipo == "ADMINISTRADOR"){
+        return true;
+    }
+
+}
 
 module.exports = helpers;

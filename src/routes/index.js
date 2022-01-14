@@ -5,6 +5,9 @@ const contacto = require("../controllers/contacto");
 const catalogo = require("../controllers/catalogo");
 const caballeros = require("../controllers/caballeros");
 
+const { isAuthenticated, notAuthenticated } = require('../helpers/auth');
+
+
 module.exports = (app) => {
 
     app.get('/', (req,res)=>{
@@ -13,10 +16,17 @@ module.exports = (app) => {
 
     });
 
-    app.get('/login', usuarios.login);
-    app.post('/login',usuarios.ingresar);
-    app.get('/registro',usuarios.registro);
-    app.post('/registro', usuarios.guardar);
+    app.get('/administrar', isAuthenticated, (req,res)=>{
+        
+        res.render("administrador.hbs", {user:req.session})
+
+    });
+
+    app.get('/login',notAuthenticated ,usuarios.login);
+    app.post('/login',notAuthenticated,usuarios.ingresar);
+    app.get('/registro',notAuthenticated,usuarios.registro);
+    app.post('/registro',notAuthenticated, usuarios.guardar);
+    app.get('/logout',isAuthenticated, usuarios.logout);
     
     app.get('/catalogo', catalogo.index );
     app.get('/ofertas', ofertas.index);
@@ -24,8 +34,8 @@ module.exports = (app) => {
     app.get('/damas', damas.index);
     app.get('/contacto', contacto.index);
 
-    app.get('/perfil',usuarios.perfil);
-    app.post('/perfil',usuarios.actualizar);
-    app.get('/carrito',usuarios.carrito);
+    app.get('/perfil',isAuthenticated,usuarios.perfil);
+    app.post('/perfil',isAuthenticated,usuarios.actualizar);
+    app.get('/carrito',isAuthenticated,usuarios.carrito);
 
 }
