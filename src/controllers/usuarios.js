@@ -1,8 +1,8 @@
 
 const User = require('../models/user');
-const ctrl_user = {};
+const ctrl = {};
 
-ctrl_user.login = async (req,res)=>{
+ctrl.login = async (req,res)=>{
 
     if(req.session._id == null){
 
@@ -15,7 +15,7 @@ ctrl_user.login = async (req,res)=>{
 
 };
 
-ctrl_user.ingresar = async (req, res) => {
+ctrl.ingresar = async (req, res) => {
 
     const { identificacion, clave } = req.body;
 
@@ -46,7 +46,7 @@ ctrl_user.ingresar = async (req, res) => {
 
 }
 
-ctrl_user.registro = async (req,res)=>{
+ctrl.registro = async (req,res)=>{
 
     if(req.session._id == null){
 
@@ -59,7 +59,7 @@ ctrl_user.registro = async (req,res)=>{
 
 };
 
-ctrl_user.guardar = async (req,res)=>{
+ctrl.guardar = async (req,res)=>{
 
     const { cedula, nombres, apellidos, genero, correo, telefono, clave, confirm_clave } = req.body;
 
@@ -106,7 +106,7 @@ ctrl_user.guardar = async (req,res)=>{
 };
 
 
-ctrl_user.perfil = async (req,res)=>{
+ctrl.perfil = async (req,res)=>{
 
     const usuario = await User.findOne({ '_id': req.session._id }).select("-clave");
         
@@ -114,7 +114,7 @@ ctrl_user.perfil = async (req,res)=>{
 
 };
 
-ctrl_user.actualizar = async (req,res)=>{
+ctrl.actualizar = async (req,res)=>{
 
     const { cedula, nombres, apellidos, genero, correo, telefono } = req.body;
 
@@ -162,14 +162,14 @@ ctrl_user.actualizar = async (req,res)=>{
 };
 
 
-ctrl_user.carrito = async (req,res)=>{
+ctrl.carrito = async (req,res)=>{
 
     res.render("carrito.hbs", {user:req.session})
 
 };  
 
 
-ctrl_user.all = async (req,res)=>{
+ctrl.all = async (req,res)=>{
 
     const usuarios = await User.find({ $nor: [{'_id':req.session._id}]}).select("-clave");
 
@@ -177,7 +177,7 @@ ctrl_user.all = async (req,res)=>{
 
 };
 
-ctrl_user.ver = async (req,res)=>{
+ctrl.ver = async (req,res)=>{
 
     const id = req.params.id
 
@@ -187,7 +187,7 @@ ctrl_user.ver = async (req,res)=>{
 
 };
 
-ctrl_user.eliminar = async (req, res) => {
+ctrl.eliminar = async (req, res) => {
 
     const user = await User.findOne({ 'cedula': req.body.cedula }).select("-clave");
 
@@ -205,7 +205,7 @@ ctrl_user.eliminar = async (req, res) => {
 
 }
 
-ctrl_user.logout = async (req,res)=>{
+ctrl.logout = async (req,res)=>{
 
     req.session.destroy();
     res.redirect('/');
@@ -214,4 +214,4 @@ ctrl_user.logout = async (req,res)=>{
 
 
 
-module.exports = ctrl_user;
+module.exports = ctrl;

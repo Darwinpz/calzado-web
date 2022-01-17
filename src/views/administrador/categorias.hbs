@@ -1,0 +1,65 @@
+<div class="container">
+
+    <div class="row">
+
+        <div class="colmt-3">
+            <div class="col ">
+
+                <a type="button" href="/administrar" class="btn btn-primary btn-lg "><i class="fas fa-chevron-left"></i>
+                    Volver</a>
+
+                <button type="button" class="btn btn-success btn-lg float-end" data-bs-toggle="modal"
+                    data-bs-target="#modal_categorias"><i class="fas fa-plus"></i>
+                    Agregar Categorias</button>
+
+            </div>
+
+        </div>
+
+        <div class="row mt-3 ">
+
+            <div class="col">
+
+                {{> table_categorias}}
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <!-- MODAL -->
+
+    <div class="modal fade" id="modal_categorias" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong>Agregar Categorias</strong></h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <form class="row g-3" method="POST">
+
+                        <div class="col-md-12">
+                            <label class="form-label fs-5"><b>* Nombre:</b></label>
+                            <input type="text" class="form-control fs-5" name="nombre"
+                                placeholder="Nombre de la categoria" required>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label class="form-label fs-5"><b>Descripción:</b></label>
+                            <textarea type="text" class="form-control fs-5 " name="descripcion"
+                                placeholder="Descripción de la categoria"></textarea>
+                        </div>
+
+                        <button class="btn btn-success btn-block fs-4 mb-2" type="submit"><i class="fas fa-save"></i>
+                            Guardar Categoria</button>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>

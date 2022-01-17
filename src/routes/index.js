@@ -4,6 +4,7 @@ const damas = require("../controllers/damas");
 const contacto = require("../controllers/contacto");
 const catalogo = require("../controllers/catalogo");
 const caballeros = require("../controllers/caballeros");
+const categorias = require("../controllers/categorias");
 
 const { isAuthenticated, notAuthenticated } = require('../helpers/auth');
 
@@ -26,6 +27,10 @@ module.exports = (app) => {
     app.delete('/administrar/usuarios', usuarios.eliminar);
     app.get('/administrar/usuarios/:id', usuarios.ver);
     app.post('/administrar/usuarios/:id', usuarios.actualizar);
+
+    app.get('/administrar/categorias', categorias.index);
+    app.post('/administrar/categorias', categorias.add);
+    app.delete('/administrar/categorias', categorias.eliminar);
     
     app.get('/login',notAuthenticated ,usuarios.login);
     app.post('/login',notAuthenticated,usuarios.ingresar);
