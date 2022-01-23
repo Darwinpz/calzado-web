@@ -5,6 +5,7 @@ const contacto = require("../controllers/contacto");
 const catalogo = require("../controllers/catalogo");
 const caballeros = require("../controllers/caballeros");
 const categorias = require("../controllers/categorias");
+const productos = require("../controllers/productos");
 
 const { isAuthenticated, notAuthenticated } = require('../helpers/auth');
 
@@ -32,6 +33,9 @@ module.exports = (app) => {
     app.post('/administrar/categorias', categorias.add);
     app.delete('/administrar/categorias', categorias.eliminar);
     
+    app.get('/administrar/productos', productos.index);
+    app.get('/administrar/add', productos.add);
+
     app.get('/login',notAuthenticated ,usuarios.login);
     app.post('/login',notAuthenticated,usuarios.ingresar);
     app.get('/registro',notAuthenticated,usuarios.registro);
@@ -43,6 +47,8 @@ module.exports = (app) => {
     app.get('/caballeros', caballeros.index);
     app.get('/damas', damas.index);
     app.get('/contacto', contacto.index);
+    app.get('/producto/:id',productos.ver);
+
 
     app.get('/perfil',isAuthenticated,usuarios.perfil);
     app.post('/perfil',isAuthenticated,usuarios.actualizar);

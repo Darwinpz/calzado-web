@@ -1,42 +1,13 @@
-<div class="container">
+<div class="container text-center">
 
     <img src="/img/ofertas.jpeg" class="img-fluid" />
 
     <div class="row mt-2">
 
         <div class="col-md-3">
-            <div class="card">
-                <h4 class="card-header text-center"><b>Filtros</b></h4>
-
-                <div class="card-body">
-
-                    <select class="form-select fs-5" name="precio" required>
-                        <option disabled selected value="">Precios</option>
-                        <option value="MAYOR">Mayor a Menor</option>
-                        <option value="MENOR">Menor a Mayor</option>
-                    </select>
-
-                    <select class="form-select fs-5 mt-3" name="categorias" required>
-                        <option disabled selected value="">Categorias</option>
-                        <option value="CASUALES">Casuales</option>
-                        <option value="DEPORTIVOS">Deportivos</option>
-                    </select>
-
-                    <select class="form-select fs-5 mt-3" name="tallas" required>
-                        <option disabled selected value="">Tallas</option>
-                        <option value="20">20</option>
-                        <option value="30">30</option>
-                    </select>
-
-                    <select class="form-select fs-5 mt-3" name="color" required>
-                        <option disabled selected value="">Colores</option>
-                        <option value="Azul">Azul</option>
-                        <option value="Verde">Verde</option>
-                    </select>
-
-                </div>
-
-            </div>
+            
+            {{> filtros}}
+            
         </div>
 
         <div class="col-md-9">

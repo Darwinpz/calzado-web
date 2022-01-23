@@ -1,8 +1,13 @@
+const Categoria = require('../models/categorias');
+
+
 const ctrl = {};
 
 ctrl.index = async (req,res)=>{
 
-    res.render('caballeros.hbs',  {user: req.session})
+    const categorias = await Categoria.find();
+
+    res.render('caballeros.hbs', {user: req.session, categorias})
 
 };
 

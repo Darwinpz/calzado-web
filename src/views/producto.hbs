@@ -1,0 +1,96 @@
+<div class="container">
+
+    <div class="card">
+
+        <h4 class="card-header"><b>{{nombre}}</b></h4>
+
+        <div class="card-body">
+
+            <div class="row align-items-center">
+
+                <div class="col col-sm-12 col-md-12 col-lg-6 mb-2 col-12">
+
+                    <div class="card border border-secondary" style="background-color: transparent;">
+                        
+                        <img src="/img/producto.png"
+                            style="height: 400px; max-height: 400px;"
+                            class="img-fluid" />
+
+                    </div>
+
+                </div>
+
+                <div class="col col-sm-12 col-md-12 col-lg-6 col-12">
+
+                    <div class="card border border-primary">
+
+                        <div class="card-body">
+
+                            <h2 style="color: green;" class="mb-3">$</h2>
+
+                            <h5 class="mb-3">Stock: {{stock}}<span style="color: royalblue;"></span></h5>
+
+                            <span><i class="fas fa-eye mb-3"></i> {{views}}</span>
+                            <span><i class="fas fa-heart mb-3" style="color: red;"></i> {{likes}}</span>
+
+                            <h5>Descripción: </h5>
+
+                            <textarea type="text" class="form-control fs-5 mb-3" name="descripcion"></textarea>
+
+                            <h5>Categorias: </h5>
+
+                            <div class="card border border-0">
+                                
+                                <div class="row">
+                                    
+                                    <div class="col col-lg-3 col-md-3 col-3 text-center mb-2">
+                                        
+                                        <div class="card">
+                                            
+                                            <span class="btn btn-outline-primary"><strong>Calzado</strong></span>
+
+                                        </div>
+
+                                    </div>
+                                    
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="card-footer">
+
+                            <form action="/addcarrito" method="POST" class="row g-3">
+
+                                <div class="container d-flex align-items-center">
+
+                                    <div class="col-md-3 mx-2">
+
+                                        <input type="number" name="car_cantidad" class="form-control" value="1" required
+                                            min="1">
+                                        <input style="display: none;" type="number" name="car_producto"
+                                            class="form-control" value="" required>
+                                    </div>
+
+                                    <button class="btn btn-primary" href="" role="button"><i class="fas fa-cart-plus">
+                                            Añadir al Carrito</i></button>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>

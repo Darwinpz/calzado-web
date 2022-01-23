@@ -1,0 +1,56 @@
+<div class="card">
+    <h4 class="card-header text-center"><b>Filtros</b></h4>
+
+    <div class="card-body">
+
+        <select class="form-select fs-5" name="precio" required>
+            <option disabled selected value="">Precios</option>
+            <option value="MAYOR">Mayor a Menor</option>
+            <option value="MENOR">Menor a Mayor</option>
+        </select>
+
+        <div class="card border mt-2">
+
+            <h5 class="card-header text-start">Categorias</h5>
+
+            <div class="card-body">
+
+                <div class="card border border-0">
+
+                    <div class="row">
+                        
+                        {{#each categorias}}
+                        <div class="col col-lg-6 col-md-6 col-3 text-center mb-2">
+
+                            <div class="card">
+
+                                <a class="btn btn-outline-primary"><strong>{{nombre}}</strong></a>
+
+                            </div>
+
+                        </div>
+                        {{/each}}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <select class="form-select fs-5 mt-3" name="tallas" required>
+            <option disabled selected value="">Tallas</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+        </select>
+
+        <select class="form-select fs-5 mt-3" name="color" required>
+            <option disabled selected value="">Colores</option>
+            <option value="Azul">Azul</option>
+            <option value="Verde">Verde</option>
+        </select>
+
+    </div>
+
+</div>
