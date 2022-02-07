@@ -79,29 +79,21 @@ ctrl.guardar = async (req,res)=>{
 
     }
 
-    if (errores.length == 0) {
+    const newUser = new User({
+        cedula,
+        nombres: nombres.toUpperCase(),
+        apellidos: apellidos.toUpperCase(),
+        genero,
+        correo,
+        telefono,
+        clave,
+        tipo: "CLIENTE"
+    });
 
-        const newUser = new User({
-            cedula,
-            nombres: nombres.toUpperCase(),
-            apellidos: apellidos.toUpperCase(),
-            genero,
-            correo,
-            telefono,
-            clave,
-            tipo: "CLIENTE"
-        });
+    newUser.clave = await newUser.encryptPassword(clave);
+    await newUser.save();
 
-        newUser.clave = await newUser.encryptPassword(clave);
-        await newUser.save();
-
-        res.render('registro.hbs', { success_msg: "Usuario Creado Correctamente" })
-
-    } else {
-
-        res.render('registro.hbs', { error_msg: errores, usuario: req.body })
-
-    }
+    res.redirect("/administrar/productos");
 
 };
 

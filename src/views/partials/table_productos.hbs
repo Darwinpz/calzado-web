@@ -3,9 +3,7 @@
         <thead>
             <tr>
                 <th class="text-center" scope="col">Nombre</th>
-                <th class="text-center" scope="col">Imagen</th>      
-                <th class="text-center" scope="col">Stock</th>
-                <th class="text-center" scope="col">Categorias</th>
+                <th class="text-center" scope="col">Imagen</th>
                 <th class="text-center" scope="col">Likes</th>
                 <th class="text-center" scope="col">Vistas</th>
                 <th class="text-center" scope="col">Acciones</th>
@@ -15,12 +13,11 @@
             {{#each productos}}
             <tr>
                 <th scope="row">{{nombre}}</th>
-                <td>{{imagen}}</td>
-                <td>{{stock}}</td>
-                <td>{{categorias}}</td>
+                <td><img src="/img/products/{{imagen foto}}" class="img-fluid" style="height: 50px; width: 100px; max-height: 50px; max-width: 100px;"></td>
                 <td>{{likes}}</td>
-                <td>{{vistas}}</td>
-                <td><a type="button" class="btn btn-danger btn-eliminar" data-id="{{_id}}"><i class="fas fa-trash"></i></a> </td>
+                <td>{{views}}</td>
+                <td><a type="button" href="/producto/{{_id}}" target="__blank" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                    <a type="button" class="btn btn-danger btn-eliminar" data-id="{{_id}}"><i class="fas fa-trash"></i></a> </td>
             </tr>
             {{/each}}
         </tbody>

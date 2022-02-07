@@ -24,7 +24,7 @@
 
             <div class="card border border-primary">
 
-                <h4 class="card-header"><b>Subir Productos</b></h4>
+                <h4 class="card-header"><b>Editar Producto</b></h4>
 
                 <div class="card-body">
 
@@ -32,12 +32,40 @@
 
                         <div class="col col-sm-12 col-md-12 col-lg-4 mb-2 col-12">
 
-                            <label class="form-label" id="imagenes"><b>*Imágenes del Producto:</b></label>
+                            <label class="form-label" id="imagenes"><b>*Imágenes del Producto:</b>
+                            
+                            {{#each producto.foto}}
+                            <input type="text" name="foto[]" style="display: none;" class="form-control"
+                                value="{{this}}">
+                            {{/each}}
+
+                            </label>
 
                             <p class="text-muted mt-1 mb-1">Archivos tipo: .jpg, .jpeg, .png</p>
                             <p class="text-muted mt-1 mb-1" id="max-archivos">Cantidad Máxima de archivos: 1</p>
 
                             <div class="dropzone" id="dropzoneForm">
+
+                            </div>
+
+                            <div class="card border border-secondary mt-3">
+                                <h4 class="card-header"><b>Imágenes</b></h4>
+                                <div class="card-body">
+                                    <div class="row" id="galeria">
+                                        {{#each producto.foto}}
+                                        <div class="col-md-4 mb-2">
+                                            <div class="card text-end">
+                                                <label class="text-danger btn-eliminar" data-id="{{this}}"
+                                                    type="button"
+                                                    style="font-size: 15px; position: absolute;margin-left: 5px;">X</label>
+                                                <img src="/img/products/{{this}}" class="img-fluid card-img-top ">
+                                            </div>
+                                        </div>
+
+                                        {{/each}}
+                                    </div>
+
+                                </div>
 
                             </div>
 
@@ -52,14 +80,15 @@
 
                                         <div class="col-md-12">
                                             <label class="form-label"><b>*Nombre del Producto:</b></label>
-                                            <input type="text" id="prod_nombre" name="prod_nombre" class="form-control" value=""
-                                                required>
+                                            <input type="text" id="prod_nombre" name="prod_nombre" class="form-control"
+                                                value="{{producto.nombre}}" required>
                                         </div>
 
                                         <div class="col-md-12">
                                             <label class="form-label"><b>*Descripción:</b></label>
-                                            <textarea type="text" id="prod_descripcion" style="height: 100px;" name="prod_descripcion" class="form-control"
-                                                required></textarea>
+                                            <textarea type="text" id="prod_descripcion" style="height: 100px;"
+                                                name="prod_descripcion" class="form-control"
+                                                required>{{producto.descripcion}}</textarea>
                                         </div>
 
                                         <div class="col-md-12" id="items">
@@ -78,41 +107,57 @@
 
                                             </div>
 
-                                            <div class="row mb-2 items" id="prod_0">
+                                            {{#for 0 producto.items.length 1}}
 
+                                            <div class="row mb-2 items" id="prod_{{this}}">
+
+                                                {{#if (equalscero this)}}
                                                 <div class="col-1">
                                                     <label class="btn btn-secondary">1</label>
                                                 </div>
+                                                {{else}}
 
+                                                <div class="col-1">
+                                                    <label class="btn btn-danger"
+                                                        onclick="delopciones({{this}})">X</label>
+                                                </div>
+
+                                                {{/if}}
                                                 <div class="col">
                                                     <input type="number" name="stock[]" placeholder="stock"
-                                                        class="form-control" value="" required min="1" oninput="validity.valid||(value='');">
+                                                        class="form-control" value="{{index ../items this 'stock'}}"
+                                                        required min="1" oninput="validity.valid||(value='');">
                                                 </div>
 
                                                 <div class="col">
                                                     <input type="text" name="color[]" placeholder="color"
-                                                        class="form-control" value="" required>
+                                                        class="form-control" value="{{index ../items this 'color'}}"
+                                                        required>
                                                 </div>
 
                                                 <div class="col">
                                                     <input type="text" name="talla[]" placeholder="tallas"
-                                                        class="form-control" value="" required>
+                                                        class="form-control" value="{{index ../items this 'talla'}}"
+                                                        required>
                                                 </div>
 
                                                 <div class="col">
 
                                                     <input type="number" name="precio[]" placeholder="precio"
-                                                        class="form-control" value="" required min="1">
+                                                        class="form-control" value="{{index ../items this 'precio'}}"
+                                                        required min="1">
                                                 </div>
 
                                             </div>
+
+                                            {{/for}}
 
 
                                         </div>
 
                                         <div class="col-md-12 text-end">
 
-                                            <button class="btn btn-success" id="btn_guardar" type="submit">Crear
+                                            <button class="btn btn-success" id="btn_guardar" type="submit">Actualizar
                                                 producto</button>
 
                                         </div>
@@ -139,13 +184,15 @@
                                         {{#each categorias}}
 
                                         <div class="form-check categorias">
-                                            <input class="form-check-input" name="categorias[]" type="checkbox" value="{{nombre}}">
+                                            <input class="form-check-input" id="{{nombre}}" name="categorias[]"
+                                                type="checkbox" value="{{nombre}}">
                                             <label class="form-check-label" for="flexCheckDefault">
                                                 {{nombre}}
                                             </label>
                                         </div>
 
                                         {{/each}}
+
 
                                     </div>
 
@@ -169,3 +216,54 @@
 </div>
 
 <script src="/js/products_options.js"></script>
+
+<script>
+
+    var categorias = "{{producto.categorias}}"
+
+    var arreglo_cat = categorias.split(",")
+
+    for (var i of arreglo_cat) {
+
+        document.getElementById(i).checked = true
+
+    }
+
+    $(document).ready(function () {
+
+        var max_fotos = Math.abs(parseInt("{{items.length}}") - parseInt("{{producto.foto.length}}"))
+        myDropzone.options.maxFiles = max_fotos
+        document.getElementById("max-archivos").innerText = "Cantidad Máxima de archivos: " + max_fotos
+
+    });
+
+
+    $('.btn-eliminar').click(function (e) {
+
+        e.preventDefault();
+
+        let $this = $(this);
+
+        let foto = $this.data('id')
+
+        const response = confirm('¿Estas seguro de eliminar la imagen?');
+
+        if (response) {
+
+            $.ajax({
+
+                url: '/api/delete/productos/foto',
+                type: 'DELETE',
+                data: { id: "{{producto._id}}", foto}
+
+            }).done(function () {
+
+                window.location.href = "/administrar/productos/{{producto._id}}"
+
+            });
+
+        }
+
+    });
+
+</script>

@@ -8,3 +8,32 @@ $(document).ready(function () {
         "lengthMenu": [5, 10, 15,20]
     });
 });
+
+
+$('.btn-eliminar').click(function (e) {
+
+    e.preventDefault();
+
+    let $this = $(this);
+
+    let id = $this.data('id')
+
+    const response = confirm('¿Estas seguro de eliminar el producto?');
+
+    if (response) {
+        
+        $.ajax({
+
+            url: '/administrar/productos',
+            type: 'DELETE',
+            data: {id}
+
+        }).done(function () {
+
+            window.location.reload();
+
+        });
+
+    }
+
+});

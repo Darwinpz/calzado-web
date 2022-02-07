@@ -15,4 +15,34 @@ helpers.tipo_usuario = (tipo)=>{
 
 }
 
+helpers.equalscero = (numero)=>{
+
+    if(numero == 0){
+        return true;
+    }
+
+}
+
+helpers.imagen = (url)=>{
+
+    return url[0]
+
+}
+
+helpers.for = (from, to, incr, block) =>{
+    
+    var acum = '';
+
+    for(var i = from; i <= to-1; i += incr)
+        acum += block.fn(i);
+    return acum;
+
+}
+
+helpers.index = (obj, pos, item)=>{
+
+    return obj[pos][item]
+
+}
+
 module.exports = helpers;

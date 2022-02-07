@@ -1,4 +1,5 @@
 const Categoria = require('../models/categorias');
+const Producto = require('../models/productos');
 
 const ctrl = {};
 
@@ -6,7 +7,9 @@ ctrl.index = async (req,res)=>{
 
     const categorias = await Categoria.find();
 
-    res.render('damas.hbs', {user: req.session, categorias})
+    const productos = await Producto.find({"categorias":{$regex:"damas", $options: 'i'}});
+
+    res.render('damas.hbs', {user: req.session, categorias, productos})
 
 };
 

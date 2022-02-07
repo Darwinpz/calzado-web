@@ -1,4 +1,4 @@
-<div class="card mt-3">
+<div class="card mt-3 mb-3">
 
     <h4 class="card-header text-center"><b>Últimos productos</b></h4>
 
@@ -17,144 +17,46 @@
                 <div class="carousel-item active" data-bs-interval="10000">
 
                     <div class="row">
+                        {{#each ofertas}}
                         <div class="col-md-3">
                             <div class="card mb-2">
-                                <img class="card-img-top"
-                                    src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg"
-                                    alt="Card image cap">
+                                <a href="/producto/{{_id}}"><img class="card-img-top" src="/img/products/{{imagen foto}}" alt="Card image cap"></a>
                                 <div class="card-body">
-                                    <h4 class="card-title text-center">Vans Verde</h4>
+                                    <h4 class="card-title text-center">{{nombre}}</h4>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-md-3 clearfix d-none d-md-block">
-                            <div class="card mb-2">
-                                <img class="card-img-top"
-                                    src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(18).jpg"
-                                    alt="Card image cap">
-                                <div class="card-body text-center">
-                                    <h4 class="card-title">Vans Verde</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 clearfix d-none d-md-block">
-                            <div class="card mb-2">
-                                <img class="card-img-top"
-                                    src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(35).jpg"
-                                    alt="Card image cap">
-                                <div class="card-body text-center">
-                                    <h4 class="card-title">Vans Verde</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 clearfix d-none d-md-block">
-                            <div class="card mb-2">
-                                <img class="card-img-top"
-                                    src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(35).jpg"
-                                    alt="Card image cap">
-                                <div class="card-body text-center">
-                                    <h4 class="card-title">Vans Verde</h4>
-                                </div>
-                            </div>
-                        </div>
+                        {{/each}}
                     </div>
 
                 </div>
                 <div class="carousel-item" data-bs-interval="2000">
                     <div class="row">
+                        {{#each damas}}
                         <div class="col-md-3">
                             <div class="card mb-2">
-                                <img class="card-img-top"
-                                    src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(60).jpg"
-                                    alt="Card image cap">
+                                <a href="/producto/{{_id}}"><img class="card-img-top" src="/img/products/{{imagen foto}}" alt="Card image cap"></a>
                                 <div class="card-body text-center">
-                                    <h4 class="card-title">Vans Verde</h4>
+                                    <h4 class="card-title">{{nombre}}</h4>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-md-3 clearfix d-none d-md-block">
-                            <div class="card mb-2">
-                                <img class="card-img-top"
-                                    src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(47).jpg"
-                                    alt="Card image cap">
-                                <div class="card-body text-center">
-                                    <h4 class="card-title">Vans Verde</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 clearfix d-none d-md-block">
-                            <div class="card mb-2">
-                                <img class="card-img-top"
-                                    src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(48).jpg"
-                                    alt="Card image cap">
-                                <div class="card-body text-center">
-                                    <h4 class="card-title">Vans Verde</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 clearfix d-none d-md-block">
-                            <div class="card mb-2">
-                                <img class="card-img-top"
-                                    src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(48).jpg"
-                                    alt="Card image cap">
-                                <div class="card-body text-center">
-                                    <h4 class="card-title">Vans Verde</h4>
-                                </div>
-                            </div>
-                        </div>
+                        {{/each}}
                     </div>
                 </div>
                 <div class="carousel-item">
                     <div class="row">
+                        {{#each caballeros}}
                         <div class="col-md-3">
                             <div class="card mb-2">
-                                <img class="card-img-top"
-                                    src="https://mdbootstrap.com/img/Photos/Horizontal/Food/4-col/img%20(53).jpg"
-                                    alt="Card image cap">
+                                <a href="/producto/{{_id}}"><img class="card-img-top" src="/img/products/{{imagen foto}}" alt="Card image cap"></a>
                                 <div class="card-body">
-                                    <h4 class="card-title text-center">Vans Verde</h4>
+                                    <h4 class="card-title text-center">{{nombre}}</h4>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-md-3 clearfix d-none d-md-block">
-                            <div class="card mb-2">
-                                <img class="card-img-top"
-                                    src="https://mdbootstrap.com/img/Photos/Horizontal/Food/4-col/img%20(45).jpg"
-                                    alt="Card image cap">
-                                <div class="card-body text-center">
-                                    <h4 class="card-title">Vans Verde</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 clearfix d-none d-md-block">
-                            <div class="card mb-2">
-                                <img class="card-img-top"
-                                    src="https://mdbootstrap.com/img/Photos/Horizontal/Food/4-col/img%20(51).jpg"
-                                    alt="Card image cap">
-                                <div class="card-body text-center">
-                                    <h4 class="card-title">Vans Verde</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 clearfix d-none d-md-block">
-                            <div class="card mb-2">
-                                <img class="card-img-top"
-                                    src="https://mdbootstrap.com/img/Photos/Horizontal/Food/4-col/img%20(51).jpg"
-                                    alt="Card image cap">
-                                <div class="card-body text-center">
-                                    <h4 class="card-title">Vans Verde</h4>
-                                </div>
-                            </div>
-                        </div>
+                        {{/each}}
                     </div>
                 </div>
             </div>
