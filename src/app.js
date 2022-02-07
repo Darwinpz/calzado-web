@@ -9,7 +9,7 @@ const nocache = require("nocache");
 const app = express();
 
 //Puerto del servidor
-app.set("port", process.env.PORTSERVER || process.env.PORT);
+app.set("port", process.env.PORT);
 
 //Sesion
 
