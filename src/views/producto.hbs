@@ -3,14 +3,14 @@
     <div class="card">
 
         <div class="card-header">
-            
+
             {{#if (tipo_usuario user.tipo) }}
 
             <a href="/administrar/productos/{{producto._id}}" class="btn btn-primary float-end">Editar Producto</a>
 
             {{/if}}
             <h4><b>{{producto.nombre}}</b></h4>
-            
+
         </div>
 
         <div class="card-body">
@@ -56,9 +56,9 @@
 
                         <div class="card-body">
 
-                            <h2 style="color: green;" class="mb-3">$</h2>
+                            <h2 style="color: green;" id="precio" class="mb-3">{{max_min producto.items}}</h2>
 
-                            <h5 class="mb-3">Stock: {{stock}}<span style="color: royalblue;"></span></h5>
+                            <h5 class="mb-3" id="stock">Stock: -<span style="color: royalblue;"></span></h5>
 
                             <span><i class="fas fa-eye mb-3"></i> {{producto.views}}</span>
                             <span><i class="fas fa-heart mb-3" style="color: red;"></i> {{producto.likes}}</span>
@@ -68,8 +68,9 @@
                                 <div class="col">
                                     <h5>Tallas: </h5>
                                     <select class="form-select" id="tallas" required>
-                                        {{#each producto.items}}
-                                        <option value="{{talla}}">{{talla}}</option>
+                                        <option value="" selected disabled>Selecciona</option>
+                                        {{#each tallas}}
+                                        <option value="{{this}}">{{this}}</option>
                                         {{/each}}
                                     </select>
                                 </div>
@@ -77,9 +78,7 @@
                                 <div class="col">
                                     <h5>Colores: </h5>
                                     <select class="form-select" id="colores" required>
-                                        {{#each producto.items}}
-                                        <option value="{{color}}">{{color}}</option>
-                                        {{/each}}
+                                        <option value="" selected disabled>Selecciona</option>
                                     </select>
                                 </div>
 
@@ -116,28 +115,26 @@
 
                         </div>
 
+                        {{#if user._id}}
+                        {{#unless (tipo_usuario user.tipo)}}
                         <div class="card-footer">
 
-                            <form action="/addcarrito" method="POST" class="row g-3">
+                            <div class="container d-flex align-items-center">
 
-                                <div class="container d-flex align-items-center">
+                                <div class="col-md-3 mx-2">
 
-                                    <div class="col-md-3 mx-2">
-
-                                        <input type="number" name="car_cantidad" class="form-control" value="1" required
-                                            min="1">
-                                        <input style="display: none;" type="number" name="car_producto"
-                                            class="form-control" value="" required>
-                                    </div>
-
-                                    <button class="btn btn-primary" href="" role="button"><i class="fas fa-cart-plus">
-                                            Añadir al Carrito</i></button>
-
+                                    <input type="number" id="car_cantidad" class="form-control" value="1" required
+                                        min="1">
                                 </div>
 
-                            </form>
+                                <button class="btn btn-primary" id="add_carrito" role="button"><i
+                                        class="fas fa-cart-plus"> Añadir al Carrito</i></button>
+
+                            </div>
 
                         </div>
+                        {{/unless}}
+                        {{/if}}
 
                     </div>
 
@@ -151,4 +148,111 @@
     </div>
 </div>
 
-<script src="/js/producto.js"></script>
+
+<script>
+
+    $('#tallas').change(function (e) {
+
+        e.preventDefault();
+
+        let $this = $(this);
+
+        let talla = $this[0].value;
+
+        $.ajax({
+
+            url: '/api/buscar/productos/colores',
+            data: { talla, id: "{{producto._id}}" },
+            type: 'POST',
+            success: function (data) {
+
+                var output = "";
+
+                output += '<option value="" selected disabled>Selecciona</option>'
+
+                for (var item of data) {
+                    output += '<option value=' + item.color + '>' + item.color + '</option>';
+                }
+
+                $("#colores").html(output);
+
+                output = "";
+
+            }
+
+        });
+
+    });
+
+
+    $('#colores').change(function (e) {
+
+        e.preventDefault();
+
+        let $this = $(this);
+
+        let color = $this[0].value;
+
+        let talla = document.getElementById("tallas").value
+
+        $.ajax({
+
+            url: '/api/buscar/productos/colores',
+            data: { color, talla, id: "{{producto._id}}" },
+            type: 'POST',
+            success: function (data) {
+
+                document.getElementById("stock").innerText = "Stock: " + data.stock
+                document.getElementById("precio").innerText = "$ " + data.precio
+
+            }
+
+        });
+
+    });
+
+
+    $('#add_carrito').click(function (e) {
+
+        e.preventDefault();
+
+        let $this = $(this);
+
+        let talla = document.getElementById("tallas").value
+        let color = document.getElementById("colores").value
+        let cantidad = document.getElementById("car_cantidad").value
+
+        if (talla != "" && color != "") {
+
+            $.ajax({
+
+                url: '/carrito/add',
+                type: 'POST',
+                data: { color, talla, cantidad, id: "{{producto._id}}", usuario: "{{user._id}}" },
+                success: function (data) {
+
+                    if (data) {
+
+
+                        var button = document.getElementById("add_carrito")
+
+                        button.innerHTML = '<i class="fas fa-check"> Agregado al Carrito</i>'
+                        button.className= "btn btn-outline-success"
+                        button.disabled = true
+
+                    }
+
+                }
+
+            });
+
+        } else {
+
+            alert("Selecciona la talla y el color correspondiente")
+
+        }
+
+    });
+
+
+</script>

@@ -45,4 +45,21 @@ helpers.index = (obj, pos, item)=>{
 
 }
 
+helpers.max_min = (items)=>{
+
+    if(items.length>1){
+
+        var max =  Math.max(...items.map(i => i.precio));
+        var min = Math.min(...items.map(i => i.precio));
+
+        return "$ "+min+" - $ "+max
+        
+    }else{
+
+        return "$ "+items[0].precio
+    }
+    
+}
+
+
 module.exports = helpers;

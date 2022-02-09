@@ -19,17 +19,22 @@ ctrl.ver = async (req, res) => {
 
     const producto = await Producto.findOne({'_id':req.params.id});
 
+    var tallas = []
+
     if(producto){
 
         producto.views = producto.views + 1;
 
         await producto.save()
 
+        tallas = producto.items.map((i)=> i.talla)
+
     }
 
-    res.render('producto.hbs', { user: req.session, producto })
+    res.render('producto.hbs', { user: req.session, producto, tallas: [...new Set(tallas)]})
 
 };
+
 
 ctrl.edit = async (req, res) => {
 

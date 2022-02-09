@@ -61,4 +61,34 @@ ctrl.upload_foto = async (req, res) => {
 
 }
 
+
+ctrl.buscar_tallas = async (req, res) => {
+
+    const producto = await Producto.findOne({ '_id': req.body.id });
+
+    if (producto) {
+
+        var obj = []
+
+        if(req.body.color!=null){
+
+            obj = producto.items.find(i=> i.talla == req.body.talla && i.color == req.body.color)
+
+        }else{
+            obj = producto.items.filter(i=> i.talla == req.body.talla)
+
+        }
+    
+        
+        res.json(obj)
+
+    } else {
+
+        res.json(false);
+
+    }
+
+
+}
+
 module.exports = ctrl;

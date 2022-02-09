@@ -154,13 +154,6 @@ ctrl.actualizar = async (req,res)=>{
 };
 
 
-ctrl.carrito = async (req,res)=>{
-
-    res.render("carrito.hbs", {user:req.session})
-
-};  
-
-
 ctrl.all = async (req,res)=>{
 
     const usuarios = await User.find({ $nor: [{'_id':req.session._id}]}).select("-clave");
