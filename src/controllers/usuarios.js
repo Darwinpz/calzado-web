@@ -1,5 +1,6 @@
 
 const User = require('../models/user');
+const Carrito = require('../models/carrito');
 const ctrl = {};
 
 ctrl.login = async (req,res)=>{
@@ -101,8 +102,10 @@ ctrl.guardar = async (req,res)=>{
 ctrl.perfil = async (req,res)=>{
 
     const usuario = await User.findOne({ '_id': req.session._id }).select("-clave");
+
+    const carrito_count = await Carrito.find({'usuario_id':req.session._id})
         
-    res.render("perfil.hbs", {user:req.session, usuario})
+    res.render("perfil.hbs", {user:req.session, usuario, carrito_count: carrito_count.length})
 
 };
 

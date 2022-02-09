@@ -1,8 +1,13 @@
 const ctrl = {};
 
+
+const Carrito = require('../models/carrito')
+
 ctrl.index = async (req,res)=>{
 
-    res.render('contacto.hbs',  {user: req.session})
+    const carrito_count = await Carrito.find({'usuario_id':req.session._id})
+
+    res.render('contacto.hbs',  {user: req.session, carrito_count: carrito_count.length})
 
 };
 

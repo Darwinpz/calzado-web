@@ -2,7 +2,7 @@ const ctrl = {};
 
 
 const Producto = require('../models/productos');
-
+const Carrito = require('../models/carrito');
 
 ctrl.inicio = async (req,res)=>{
 
@@ -12,7 +12,9 @@ ctrl.inicio = async (req,res)=>{
 
     const caballeros = await Producto.find({"categorias":{$regex:"caballeros", $options: 'i'}}).sort({"creacion": "asc"}).limit(4);
 
-    res.render("index.hbs", {user:req.session, ofertas, damas, caballeros})
+    const carrito_count = await Carrito.find({'usuario_id':req.session._id})
+
+    res.render("index.hbs", {user:req.session, ofertas, damas, caballeros, carrito_count: carrito_count.length})
 
 };
 

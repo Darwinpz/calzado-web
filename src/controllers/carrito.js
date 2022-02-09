@@ -9,7 +9,9 @@ ctrl.index = async (req,res)=>{
 
     var total = carrito.map((e)=>e.item.precio*e.cantidad).reduce((prev, curr) => prev + curr, 0);
 
-    res.render("carrito.hbs", {user:req.session, carrito, total})
+    const carrito_count = await Carrito.find({'usuario_id':req.session._id})
+
+    res.render("carrito.hbs", {user:req.session, carrito, total, carrito_count: carrito_count.length})
 
 };  
 

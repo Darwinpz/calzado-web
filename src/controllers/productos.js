@@ -3,6 +3,7 @@ const Categoria = require('../models/categorias');
 const fs = require('fs-extra');
 const path = require('path');
 const categorias = require('../models/categorias');
+const Carrito = require('../models/carrito');
 
 const ctrl = {};
 
@@ -31,7 +32,10 @@ ctrl.ver = async (req, res) => {
 
     }
 
-    res.render('producto.hbs', { user: req.session, producto, tallas: [...new Set(tallas)]})
+    const carrito_count = await Carrito.find({'usuario_id':req.session._id})
+
+
+    res.render('producto.hbs', { user: req.session, producto, tallas: [...new Set(tallas)], carrito_count: carrito_count.length})
 
 };
 
