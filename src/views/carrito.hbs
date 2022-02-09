@@ -2,4 +2,20 @@
 
     {{> table_carrito}}
 
+    <div class="card">
+
+        <div class="card-footer">
+            <div class="row text-end">
+                <div class="col">
+                    <h4>Total de compra: $ {{total}}</h4>
+                    {{#unless (equalscero total) }}
+                    <button class="btn btn-success mt-3" type="submit">Crear Pedido</button>
+                    {{/unless}}
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
 </div>

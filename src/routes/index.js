@@ -60,6 +60,7 @@ module.exports = (app) => {
     app.get('/perfil',isAuthenticated,usuarios.perfil);
     app.post('/perfil',isAuthenticated,usuarios.actualizar);
     app.get('/carrito',isAuthenticated,carrito.index);
-    app.post('/carrito/add', isAuthenticated,carrito.add)
+    app.post('/carrito/add', isAuthenticated,carrito.add);
+    app.delete('/carrito',isAuthenticated,carrito.eliminar);
 
 }

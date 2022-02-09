@@ -5,17 +5,16 @@ const Carrito = require('../models/carrito')
 
 ctrl.index = async (req,res)=>{
 
-    const carrito = await Carrito.find({'usuario_id':req.session._id});
+    const carrito = await Carrito.find({'usuario_id':req.session._id}).populate('producto','nombre foto') ;
 
-    console.log(carrito)
+    var total = carrito.map((e)=>e.item.precio*e.cantidad).reduce((prev, curr) => prev + curr, 0);
 
-    res.render("carrito.hbs", {user:req.session})
+    res.render("carrito.hbs", {user:req.session, carrito, total})
 
 };  
 
 
 ctrl.add = async (req, res) => {
-
 
     const producto = await Producto.findOne({'_id':req.body.id});
 
@@ -23,16 +22,14 @@ ctrl.add = async (req, res) => {
 
         var obj = producto.items.find(i=> i.talla == req.body.talla && i.color == req.body.color)
 
-        console.log(obj)
-
-        if(obj.stock > 0){
+        if(obj.stock > 0 && obj.stock >= parseInt(req.body.cantidad)){
 
             const newCarrito = new Carrito({
 
-                producto_id: req.body.id,
+                producto: req.body.id,
                 cantidad: req.body.cantidad,
                 usuario_id: req.body.usuario,
-        
+                item: obj
             })
 
             await newCarrito.save();
@@ -49,6 +46,25 @@ ctrl.add = async (req, res) => {
 
 
 };
+
+
+ctrl.eliminar = async (req, res) => {
+
+    const carrito = await Carrito.findOne({ '_id': req.body.id });
+
+    if (carrito) {
+
+        await carrito.remove();
+
+        res.json(true);
+
+    } else {
+
+        res.json(false);
+
+    }
+
+}
 
 
 module.exports = ctrl;

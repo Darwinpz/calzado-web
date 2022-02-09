@@ -13,13 +13,12 @@
         <tbody class="text-center">
             {{#each carrito}}
             <tr>
-                <th scope="row">{{imagen}}</th>
-                <td>{{nombre}}</td>
-                <td>{{precio}}</td>
+                <th scope="row">{{producto.nombre}}</th>
+                <td><img src="/img/products/{{imagen producto.foto}}" class="img-fluid" style="height: 50px; width: 100px; max-height: 50px; max-width: 100px;"></td>
+                <td>{{item.precio}}</td>
                 <td>{{cantidad}}</td>
-                <td>{{cantidad}}</td>
-                <td><a type="button" href="/" class="btn btn-primary"><i class="fas fa-eye"></i></a> <a
-                        type="button" class="btn btn-danger btn-eliminar" ><i class="fas fa-trash" ></i></a></td>
+                <td>{{total}}</td>
+                <td><a type="button" class="btn btn-danger btn-eliminar" data-id="{{_id}}" ><i class="fas fa-trash" ></i></a></td>
             </tr>
             {{/each}}
         </tbody>

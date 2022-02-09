@@ -124,7 +124,7 @@
                                 <div class="col-md-3 mx-2">
 
                                     <input type="number" id="car_cantidad" class="form-control" value="1" required
-                                        min="1">
+                                        min="1" oninput="validity.valid||(value='')">
                                 </div>
 
                                 <button class="btn btn-primary" id="add_carrito" role="button"><i
@@ -239,6 +239,10 @@
                         button.innerHTML = '<i class="fas fa-check"> Agregado al Carrito</i>'
                         button.className= "btn btn-outline-success"
                         button.disabled = true
+
+                    }else{
+
+                        alert("Stock no disponible")
 
                     }
 
