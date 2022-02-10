@@ -51,8 +51,11 @@ module.exports = (app) => {
     
     app.get('/catalogo', catalogo.index );
     app.get('/ofertas', ofertas.index);
+    app.get('/ofertas/filtros/:categorias/:precios/:tallas/:colores',ofertas.filtro);
     app.get('/caballeros', caballeros.index);
+    app.get('/caballeros/filtros/:categorias',caballeros.filtro);
     app.get('/damas', damas.index);
+    app.get('/damas/filtros/:categorias/:precios/:tallas/:colores',damas.filtro);
     app.get('/contacto', contacto.index);
     app.get('/producto/:id',productos.ver);
 

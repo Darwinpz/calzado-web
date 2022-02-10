@@ -41,8 +41,9 @@
 
         <select class="form-select fs-5 mt-3" name="tallas" required>
             <option disabled selected value="">Tallas</option>
-            <option value="20">20</option>
-            <option value="30">30</option>
+            {{#each tallas}}
+            <option value=""></option>
+            {{/each}}
         </select>
 
         <select class="form-select fs-5 mt-3" name="color" required>

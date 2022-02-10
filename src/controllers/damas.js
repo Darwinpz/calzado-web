@@ -16,4 +16,8 @@ ctrl.index = async (req,res)=>{
 
 };
 
+ctrl.filtro = async (req,res)=>{
+
+}
+
 module.exports = ctrl;
