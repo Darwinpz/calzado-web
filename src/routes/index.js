@@ -7,6 +7,7 @@ const caballeros = require("../controllers/caballeros");
 const categorias = require("../controllers/categorias");
 const productos = require("../controllers/productos");
 const carrito = require("../controllers/carrito")
+const calendario = require("../controllers/calendario")
 const api = require("../controllers/api");
 
 const index = require("../controllers/index")
@@ -38,6 +39,10 @@ module.exports = (app) => {
 
     app.get('/administrar/productos/:id',isAuthenticated, productos.edit)
     app.post('/administrar/productos/:id',isAuthenticated, productos.update)
+
+
+    app.get('/administrar/contactcenter',isAuthenticated,contacto.contactcenter);
+    app.get('/administrar/calendario', isAuthenticated, calendario.index)
 
     app.delete('/api/delete/productos/foto',api.eliminar_foto)
     app.post('/api/uploads/productos/', multer.array("fotos",3), api.upload_foto)

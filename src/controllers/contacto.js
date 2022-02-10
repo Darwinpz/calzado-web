@@ -11,4 +11,12 @@ ctrl.index = async (req,res)=>{
 
 };
 
+ctrl.contactcenter = async (req,res)=>{
+
+
+    res.render('administrador/contactcenter.hbs',  {user: req.session})
+
+};
+
+
 module.exports = ctrl;
