@@ -1,0 +1,191 @@
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css'><link rel="stylesheet" href="/css/style.css">
+ 
+<body>
+<!-- partial:index.partial.html -->
+<script> 
+function day_title(day_name) {
+    document.write("<div class='c-cal__col'>" + day_name + "</div>");
+  } 
+function fill_table(month, month_length, indexMonth) {
+    day = 1;
+    // begin the new month table
+    document.write("<div class='c-main c-main-" + indexMonth + "'>");
+    //document.write("<b>"+month+" "+year+"</b>")
+
+    // column headings
+    document.write("<div class='c-cal__row'>");
+    day_title("Domingo");
+    day_title("Lunes");
+    day_title("Martes");
+    day_title("Miércoles");
+    day_title("Jueves");
+    day_title("Viernes");
+    day_title("Sábado");
+    document.write("</div>");
+
+    // pad cells before first day of month
+    document.write("<div class='c-cal__row'>");
+    for (var i = 1; i < start_day; i++) {
+      if (start_day > 7) {
+      } else {
+        document.write("<div class='c-cal__cel'></div>");
+      }
+    }
+
+    // fill the first week of days
+    for (var i = start_day; i < 8; i++) {
+      document.write(
+        "<div data-day='2022-" +
+          indexMonth +
+          "-0" +
+          day +
+          "'class='c-cal__cel'><p>" +
+          day +
+          "</p></div>"
+      );
+      day++;
+    }
+    document.write("</div>");
+
+    // fill the remaining weeks
+    while (day <= month_length) {
+      document.write("<div class='c-cal__row'>");
+      for (var i = 1; i <= 7 && day <= month_length; i++) {
+        if (day >= 1 && day <= 9) {
+          document.write(
+            "<div data-day='2022-" +
+              indexMonth +
+              "-0" +
+              day +
+              "'class='c-cal__cel'><p>" +
+              day +
+              "</p></div>"
+          );
+          day++;
+        } else {
+          document.write(
+            "<div data-day='2022-" +
+              indexMonth +
+              "-" +
+              day +
+              "' class='c-cal__cel'><p>" +
+              day +
+              "</p></div>"
+          );
+          day++;
+        }
+      }
+      document.write("</div>");
+      // the first day of the next month
+      start_day = i;
+    }
+
+    document.write("</div>");
+  }
+</script>
+
+
+  
+  
+<div class="container text-center">
+    
+    <img src="/img/caballeros.jpeg" class="img-fluid"/>
+    <div class="wrapper">
+    <div class="c-monthyear">
+    <div class="c-month">
+        <span id="prev" class="prev fa fa-angle-left" aria-hidden="true"></span>
+        <div id="c-paginator">
+          <span class="c-paginator__month">ENERO</span>
+          <span class="c-paginator__month">FEBRERO</span>
+          <span class="c-paginator__month">MARZO</span>
+          <span class="c-paginator__month">ABRIL</span>
+          <span class="c-paginator__month">MAYO</span>
+          <span class="c-paginator__month">JUNIO</span>
+          <span class="c-paginator__month">JULIO</span>
+          <span class="c-paginator__month">AGOSTO</span>
+          <span class="c-paginator__month">SEPTIEMBRE</span>
+          <span class="c-paginator__month">OCTUBRE</span>
+          <span class="c-paginator__month">NOVIEMBRE</span>
+          <span class="c-paginator__month">DICIEMBRE</span>
+        </div>
+        <span id="next" class="next fa fa-angle-right" aria-hidden="true"></span>
+      </div>
+      <span class="c-paginator__year">2022</span>
+    </div>
+    <div class="c-sort">
+      <a class="o-btn c-today__btn" href="javascript:;">HOY</a>
+    </div>
+  </div>
+</div>
+
+
+<div class="wrapper">
+  <div class="c-calendar">
+    <div class="c-calendar__style c-aside">
+      <a class="c-add o-btn js-event__add" href="javascript:;">AGENDAR EVENTO <span class="fa fa-plus"></span></a>
+      <div class="c-aside__day">
+        <span class="c-aside__num"></span> <span class="c-aside__month"></span>
+      </div>
+      <div class="c-aside__eventList">
+      </div>
+    </div>
+    <div class="c-cal__container c-calendar__style">
+      <script>
+      
+      // CAHNGE the below variable to the CURRENT YEAR
+      year = 2022;
+
+      // first day of the week of the new year
+      today = new Date("Enero 1, " + year);
+      start_day = today.getDay() + 1;
+      fill_table("Enero", 31, "01");
+      fill_table("Febrero", 28, "02");
+      fill_table("Marzo", 31, "03");
+      fill_table("Abril", 30, "04");
+      fill_table("Mayo", 31, "05");
+      fill_table("Junio", 30, "06");
+      fill_table("Julio", 31, "07");
+      fill_table("Agosto", 31, "08");
+      fill_table("Septiembre", 30, "09");
+      fill_table("Octubre", 31, "10");
+      fill_table("Noviembre", 30, "11");
+      fill_table("Diciembre", 31, "12");
+      </script>
+    </div>
+  </div>
+
+  <div class="c-event__creator c-calendar__style js-event__creator">
+    <a href="javascript:;" class="o-btn js-event__close">CLOSE <span class="fa fa-close"></span></a>
+    <form id="addEvent">
+      <input placeholder="Event name" type="text" name="name">
+      <input type="date" name="date">
+      <textarea placeholder="Notes" name="notes" cols="30" rows="10"></textarea>
+      <select name="tags">
+          <option value="completo">COMPLETO</option>
+          <option value="enproceso">EN PROCESO</option>
+          <option value="incompleto">INCOMPLETO</option> 
+        </select>
+    </form>
+    <br>
+    <a href="javascript:;" class="o-btn js-event__save">SAVE <span class="fa fa-save"></span></a>
+  </div>
+</div>
+<!-- partial -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery.cycle2/2.1.6/jquery.cycle2.core.min.js'></script><script  src="/js/script.js"></script>
+
+</body> 
+
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<a class="ir-arriba"  javascript:void(0) title="Volver arriba">
+  <span class="fa-stack">
+    <i class="fa fa-circle fa-stack-2x"></i>
+    <i class="fa fa-arrow-up fa-stack-1x fa-inverse"></i>
+  </span>
+</a>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script><script  src="/js/scriptarriba.js"></script>

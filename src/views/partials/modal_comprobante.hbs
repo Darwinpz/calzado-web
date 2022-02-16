@@ -1,0 +1,100 @@
+<link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+<script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
+
+<div class="modal fade" id="modal_comprobante" tabindex="-1" aria-labelledby="ComprobanteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><Strong>Subir Comprobante</Strong></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <p class="text-muted mt-1 mb-1">Archivos tipo: .jpg, .jpeg, .png</p>
+                <p class="text-muted mt-1 mb-1" id="max-archivos">Cantidad Máxima de archivos: 1</p>
+
+                <div class="dropzone" id="dropzoneForm">
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <input id="id_pedido" style="display: none;" value="">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $('#modal_comprobante').on('show.bs.modal', function (event) {
+
+        myDropzone.removeAllFiles();
+        
+        var button = $(event.relatedTarget)
+
+        var id = button.data('id')
+
+        var modal = $(this)
+        
+        document.getElementById("id_pedido").value = id
+
+    });
+
+
+    Dropzone.options.dropzoneForm = {
+        url: "/api/uploads/comprobante",
+        autoProcessQueue: true,
+        addRemoveLinks: true,
+        maxFiles: 1,
+        acceptedFiles: ".jpg, .jpeg, .png",
+        paramName: "foto",
+
+        init: function () {
+
+            myDropzone = this;
+
+            this.on('error', function (file, response) {
+
+                $(file.previewElement).find('.dz-error-message').text(response);
+
+            });
+
+            this.on('success', function (file, response) {
+
+                /*var foto = document.createElement("input");
+                foto.type = "text"
+                foto.style = "display:none"
+                foto.className = "form-control"
+                foto.name = "foto[]"
+                foto.value = response
+                foto.id = file.upload.uuid
+                document.getElementById("imagenes").appendChild(foto)*/
+
+                window.location.reload();
+
+            });
+
+            this.on('sending', function (file, xhr, formData) {
+
+                formData.append("id_pedido", document.getElementById("id_pedido").value);
+
+            });
+
+        }
+
+    };
+
+    Dropzone.prototype.defaultOptions.dictDefaultMessage = "Arrastra los archivos aquí";
+    Dropzone.prototype.defaultOptions.dictFallbackMessage = "Tu buscador no soporta el arrastrar archivos";
+    Dropzone.prototype.defaultOptions.dictFallbackText = "Utilice el siguiente formulario de respaldo para cargar sus archivos";
+    Dropzone.prototype.defaultOptions.dictFileTooBig = "Archivo demasiado grande";
+    Dropzone.prototype.defaultOptions.dictInvalidFileType = "No puedes subir este tipo de archivo";
+    Dropzone.prototype.defaultOptions.dictResponseError = "El servidor no responde";
+    Dropzone.prototype.defaultOptions.dictCancelUpload = "Subida cancelada";
+    Dropzone.prototype.defaultOptions.dictCancelUploadConfirmation = "¿Estas seguro de cancelar la subida?";
+    Dropzone.prototype.defaultOptions.dictRemoveFile = "Remover archivo";
+    Dropzone.prototype.defaultOptions.dictMaxFilesExceeded = "No puedes subir mas archivos";
+
+</script>

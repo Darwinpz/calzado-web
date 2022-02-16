@@ -1,0 +1,39 @@
+<div class="card mb-2">
+
+                    <h3 class="card-header">Enviar correo</h3>
+
+                    <div class="card-body">
+
+                        <form action="" method="POST" id="contactForm">
+                            <div class="row">
+                                 
+                                <div class="col-sm-6 mb-2">
+                                    <div class="form-group">
+                                        <input class="form-control valid" name="email" id="email" type="email"
+                                            placeholder="Ingresa correo" value="{{usuario.identificacion}}" required>
+                                    </div>
+                                </div> 
+                                <div class="col-sm-6 mb-2">
+                                    <div class="form-group">
+                                        <input class="form-control valid" name="asunto" id="email" type="email"
+                                            placeholder="Ingresa asunto" value="{{usuario.identificacion}}" required>
+                                    </div>
+                                </div> 
+
+                                <div class="col-12 mb-2">
+                                    <div class="form-group">
+                                        <textarea class="form-control w-100" name="message" id="message" rows="3"
+                                            placeholder=" Ingresa el mensaje" value="{{usuario.mensaje}}" required></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mt-3">
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-primary btn-block fs-4" type="submit">Enviar mensaje</button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>

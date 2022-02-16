@@ -2,8 +2,8 @@ const Producto = require('../models/productos');
 const Categoria = require('../models/categorias');
 const fs = require('fs-extra');
 const path = require('path');
-const categorias = require('../models/categorias');
 const Carrito = require('../models/carrito');
+const Pedido = require("../models/pedidos");
 
 const ctrl = {};
 
@@ -32,10 +32,15 @@ ctrl.ver = async (req, res) => {
 
     }
 
-    const carrito_count = await Carrito.find({'usuario_id':req.session._id})
+    const carrito_count = await Carrito.count({'usuario_id':req.session._id})
+    const pedido_count = await Pedido.count({'usuario_id':req.session._id});
 
+    const categoria1 =  await Producto.find({"categorias":{$regex:producto.categorias[0]+"", $options: 'i'}}).sort({"creacion": "asc"}).limit(4);
+    const categoria2 =  await Producto.find({"categorias":{$regex:producto.categorias[1]+"", $options: 'i'}}).sort({"creacion": "asc"}).limit(4);
+    const categoria3 =  await Producto.find({"categorias":{$regex:producto.categorias[3]+"", $options: 'i'}}).sort({"creacion": "asc"}).limit(4);
+    
 
-    res.render('producto.hbs', { user: req.session, producto, tallas: [...new Set(tallas)], carrito_count: carrito_count.length})
+    res.render('producto.hbs', { user: req.session, producto, tallas: [...new Set(tallas)], carrito_count, pedido_count, categoria1,categoria2,categoria3})
 
 };
 

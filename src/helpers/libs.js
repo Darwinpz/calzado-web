@@ -15,6 +15,14 @@ helpers.tipo_usuario = (tipo)=>{
 
 }
 
+helpers.comparar = (estado, tipo)=>{
+
+    if(estado == tipo){
+        return true;
+    }
+
+}
+
 helpers.equalscero = (numero)=>{
 
     if(numero == 0){
@@ -60,6 +68,15 @@ helpers.max_min = (items)=>{
     }
     
 }
+
+helpers.format = (fecha)=>{
+
+    var hoy = new Date(fecha)
+
+    return ('0' + (hoy.getDate())).slice(-2) + "/"+('0' + (hoy.getMonth() + 1)).slice(-2) +"/"+ hoy.getFullYear()
+
+}
+
 
 
 module.exports = helpers;

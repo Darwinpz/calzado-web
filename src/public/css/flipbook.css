@@ -9,16 +9,7 @@ body1 {
     font-family: sans-serif;
     background-color: powderblue;
 }
-
-body2 {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    font-family: sans-serif;
-    background-color: rgb(230, 176, 210);
-}
+ 
 
 /* Book */
 .book {

@@ -1,7 +1,17 @@
 
 const User = require('../models/user');
 const Carrito = require('../models/carrito');
+var jwt = require('../helpers/jwt');
+var transporter = require('./Mailer');
+var transporter1 = require('./Mailercontacto');
+var jwts =  require('jwt-simple');
+const bcrypt = require('bcryptjs');
+const Pedido = require("../models/pedidos");
+
+var secret = process.env.SECRET
+
 const ctrl = {};
+
 
 ctrl.login = async (req,res)=>{
 
@@ -46,6 +56,128 @@ ctrl.ingresar = async (req, res) => {
 
 
 }
+
+ctrl.recuperarcuenta = async (req,res)=>{
+
+    if(req.session._id == null){
+
+        res.render("recuperarcuenta.hbs")
+
+    }else{
+        
+        res.redirect("/")
+    }
+
+};
+
+ctrl.enviarcorreo = async (req,res)=>{
+
+    if(req.session._id == null){
+        let data = req.body;
+        var cliente_buscado = await User.findOne({correo: data.identificacion});
+        if(cliente_buscado != null) {
+            var token = jwt.createTokenRecuperar(cliente_buscado);
+            try{
+                await transporter.sendMail({
+                    from: 'Calzado Ivan La Febre" <calzadoivanlafebre@gmail.com>', // sender address
+                    to: cliente_buscado.correo, // list of receivers
+                    subject: "Recuperar contraseña", // Subject line
+                    text: "Hello world?", // plain text body
+                    html: `<table style="max-width: 600px; padding: 10px; margin:0 auto; border-collapse: collapse;">
+                    <tr>
+                      <td style="background-color: #ecf0f1">
+                        <div style="color: #34495e; margin: 4% 10% 2%; text-align: justify;font-family: sans-serif">
+                          <h2 style="color: #e67e22; margin: 0 0 7px">HOLA ${cliente_buscado.nombres}</h2>
+                          <p style="margin: 2px; font-size: 15px">
+                            La familia que conforma Calzado Ivan La Febre te agradece por preferirnos, y deseamos que tu experiencia con nuestro sitio web sea la mejor.</p></br>
+                          <p style="margin: 2px; font-size: 15px">
+                            Tú solicitud de Recuperar Contraseña ha sido aceptada</p>
+                          <p style="margin: 2px; font-size: 15px">
+                            LA DURACIÓN DE ESTE ENLACE ES DE 15 MINUTOS, PASADO ESTE TIEMPO DEBERA GENRAR UN NUEVO ENLACE</p>
+                          <div style="width: 100%;margin:20px 0; display: inline-block;text-align: center">
+                            <a style="text-decoration: none; border-radius: 5px; padding: 11px 23px; color: white; background-color: #3498db" href="http://localhost:3000/cambiarpassword/${token}">CLIC AQUÍ</a>	
+                          </div>
+                          <p style="color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0">Calzado Ivan La Febre</p>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>`, // html body
+                  });                  
+            }catch (e) {
+                console.log(e);
+            }
+            res.render("recuperarcuenta.hbs",  { success_msg: "Correo electrónico enviado satisfactoriamente"});
+        }
+    }else{
+        
+        res.redirect("/")
+    }
+
+};
+
+
+
+ctrl.sugerencia = async (req,res)=>{
+    let data = req.body;
+            try{
+                await transporter1.sendMail({
+                    from: 'Contacto Calzado Ivan La Febre" <contactocalzadoivanlafebre@gmail.com>', // sender address
+                    to: '<calzadoivanlafebre@gmail.com>', // list of receivers
+                    subject:  req.body.subject, // Subject line
+                    text: "Hello world?", // plain text body
+                    html: `<table style="max-width: 600px; padding: 10px; margin:0 auto; border-collapse: collapse;">
+                     
+                  </table>`, // html body
+                  });                  
+            }catch (e) {
+                console.log(e);
+            }
+            res.render("contacto.hbs",  { success_msg: "Correo electrónico enviado satisfactoriamente"});
+         
+
+};
+
+
+
+ctrl.cambiarpassword = async (req,res)=>{
+    if(req.session._id == null){
+        token = req.params.token;
+        res.render("cambiarpassword.hbs",{token:token});
+    }else{
+        
+        res.redirect("/")
+    }
+}
+
+ctrl.cambiarpasswordBD = async (req,res)=>{
+    if(req.session._id == null){
+        try{
+            token = req.params.token;
+            const { clave, confirm_clave } = req.body;
+            var payload = jwts.decode(token,secret);
+            var id = payload.sub;
+
+            if (clave != confirm_clave) {
+                res.render("cambiarpassword.hbs", { error_msg: [{ text: "Las constraseñas ingresadas no coinciden" }], token:token });
+        
+            }else{
+                const salt = await bcrypt.genSalt(10);
+                const hash = await bcrypt.hash(clave, salt);
+                var reg = await User.findByIdAndUpdate({_id:id},{
+                    clave: hash
+                });
+                res.redirect('/login');
+            }
+        }catch(e){
+            res.render("cambiarpassword.hbs", { error_msg: [{ text: "El token ya expiro" }], token:token });
+        }        
+    }else{
+        
+        res.redirect("/")
+    }
+}
+
+
 
 ctrl.registro = async (req,res)=>{
 
@@ -103,9 +235,11 @@ ctrl.perfil = async (req,res)=>{
 
     const usuario = await User.findOne({ '_id': req.session._id }).select("-clave");
 
-    const carrito_count = await Carrito.find({'usuario_id':req.session._id})
-        
-    res.render("perfil.hbs", {user:req.session, usuario, carrito_count: carrito_count.length})
+    const carrito_count = await Carrito.count({'usuario_id':req.session._id})
+
+    const pedido_count = await Pedido.count({'usuario_id':req.session._id})
+
+    res.render("perfil.hbs", {user:req.session, usuario, carrito_count, pedido_count})
 
 };
 

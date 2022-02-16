@@ -3,11 +3,23 @@
 
     <div class="card-body">
 
-        <select class="form-select fs-5" name="precio" required>
-            <option disabled selected value="">Precios</option>
-            <option value="MAYOR">Mayor a Menor</option>
-            <option value="MENOR">Menor a Mayor</option>
-        </select>
+        <div class="card border mt-2">
+
+            <h5 class="card-header text-start">Precios</h5>
+
+            <div class="card-body">
+
+                <label class="form-label float-start">$0</label>
+                <label class="form-label text-center">$50</label>
+                <label class="form-label float-end">$100</label>
+                <input type="range" class="form-range input-range" id="range" min="0" max="10" step="1"
+                    list="tickmarks" value="0">
+
+                <label class="form-label text-center" id="valor">$50</label>
+
+            </div>
+
+        </div>
 
         <div class="card border mt-2">
 
@@ -18,13 +30,14 @@
                 <div class="card border border-0">
 
                     <div class="row">
-                        
+
                         {{#each categorias}}
                         <div class="col col-lg-6 col-md-6 col-3 text-center mb-2">
 
                             <div class="card">
 
-                                <a class="btn btn-outline-primary " style="font-size: small;"><strong>{{nombre}}</strong></a>
+                                <a class="btn btn-outline-primary btn-categorias" id="{{nombre}}"
+                                    data-nombre="{{nombre}}" style="font-size: small;"><strong>{{nombre}}</strong></a>
 
                             </div>
 
@@ -39,19 +52,195 @@
 
         </div>
 
-        <select class="form-select fs-5 mt-3" name="tallas" required>
+        <select class="form-select fs-5 mt-3 btn-tallas" id="select_tallas" name="tallas" required>
             <option disabled selected value="">Tallas</option>
-            {{#each tallas}}
-            <option value=""></option>
-            {{/each}}
-        </select>
-
-        <select class="form-select fs-5 mt-3" name="color" required>
-            <option disabled selected value="">Colores</option>
-            <option value="Azul">Azul</option>
-            <option value="Verde">Verde</option>
+            <option value="30">30</option>
+            <option value="32">32</option>
+            <option value="34">34</option>
+            <option value="36">36</option>
+            <option value="38">38</option>
+            <option value="40">40</option>
         </select>
 
     </div>
 
 </div>
+
+<script>
+
+    path = window.location.pathname
+
+    if (path.includes("categoria") || path.includes("talla") || path.includes("precio")) {
+
+        for (c of path.split("&")) {
+            if (c.includes("categoria")) {
+
+                ca = c.split("categoria=")[1]
+
+                document.getElementById(ca).className = "btn btn-primary btn-categorias"
+
+            }
+
+            if (c.includes("talla")) {
+                ta = c.split("talla=")[1]
+
+                document.getElementById("select_tallas").value = ta
+
+            }
+
+            if (c.includes("precio")) {
+
+                pe = c.split("precio=")[1]
+                
+                document.getElementById("range").value = (pe/10)
+
+                document.getElementById("valor").innerText = "$" + (pe)
+
+            }
+        }
+
+    }
+
+    $(".btn-categorias").click(function (e) {
+
+        e.preventDefault();
+
+        let $this = $(this);
+
+        let categoria = $this.data('nombre')
+
+        path = window.location.pathname
+
+        if (path.includes("/filtros/")) {
+
+            if (path.includes("categoria")) {
+
+                cat = path.split("&")
+
+                if (cat.length == 1) {
+
+                    ta = cat[0].split("categoria=")[1]
+
+                    window.location.href = path.replace(ta, categoria)
+
+                } else {
+
+                    for (c of cat) {
+                        if (c.includes("categoria")) {
+
+                            ca = c.split("categoria=")[1]
+
+                            window.location.href = path.replace(ca, categoria)
+
+                        }
+                    }
+
+                }
+
+            } else {
+                window.location.href = path + "&categoria=" + categoria
+            }
+
+        } else {
+
+            window.location.href = path + "/filtros/categoria=" + categoria
+
+        }
+
+
+
+    })
+
+    $(".btn-tallas").change(function (e) {
+
+        e.preventDefault();
+
+        talla = document.getElementById("select_tallas").value
+
+        path = window.location.pathname
+
+        if (path.includes("/filtros/")) {
+
+            if (path.includes("talla")) {
+
+                ta = path.split("&")
+
+                if (ta.length == 1) {
+
+                    ca = ta[0].split("talla=")[1]
+
+                    window.location.href = path.replace(ca, talla)
+
+                } else {
+
+                    for (c of ta) {
+                        if (c.includes("talla")) {
+
+                            t = c.split("talla=")[1]
+
+                            window.location.href = path.replace(t, talla)
+
+                        }
+                    }
+
+                }
+
+            } else {
+                window.location.href = path + "&talla=" + talla
+            }
+
+        } else {
+
+            window.location.href = path + "/filtros/talla=" + talla
+
+        }
+
+    })
+
+    $(".input-range").click(function (e) {
+        var precio = (document.getElementById("range").value)
+
+        //document.getElementById("valor").innerText = "$" + (precio * 10)
+
+
+        path = window.location.pathname
+
+        if (path.includes("/filtros/")) {
+
+            if (path.includes("precio")) {
+
+                ta = path.split("&")
+
+                if (ta.length == 1) {
+
+                    ca = ta[0].split("precio=")[1]
+
+                    window.location.href = path.replace(ca, (precio*10))
+
+                } else {
+
+                    for (c of ta) {
+                        if (c.includes("precio")) {
+
+                            t = c.split("precio=")[1]
+
+                            window.location.href = path.replace(t, (precio*10))
+
+                        }
+                    }
+
+                }
+
+            } else {
+                window.location.href = path + "&precio=" + (precio*10)
+            }
+
+        } else {
+
+            window.location.href = path + "/filtros/precio=" + (precio*10)
+
+        }
+
+    })
+
+</script>

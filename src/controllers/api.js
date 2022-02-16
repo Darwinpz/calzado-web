@@ -1,6 +1,5 @@
 
 const Producto = require('../models/productos');
-const Categoria = require('../models/categorias');
 const fs = require('fs-extra');
 const path = require('path');
 
@@ -11,7 +10,7 @@ ctrl.eliminar_foto = async (req, res) => {
     const producto = await Producto.findOne({ '_id': req.body.id });
 
     if (producto) {
-      
+
         producto.foto = producto.foto.filter(f => f != req.body.foto);
 
         const targetPath = path.resolve('src/public/img/products/' + req.body.foto);
@@ -70,16 +69,16 @@ ctrl.buscar_tallas = async (req, res) => {
 
         var obj = []
 
-        if(req.body.color!=null){
+        if (req.body.color != null) {
 
-            obj = producto.items.find(i=> i.talla == req.body.talla && i.color == req.body.color)
+            obj = producto.items.find(i => i.talla == req.body.talla && i.color == req.body.color)
 
-        }else{
-            obj = producto.items.filter(i=> i.talla == req.body.talla)
+        } else {
+            obj = producto.items.filter(i => i.talla == req.body.talla)
 
         }
-    
-        
+
+
         res.json(obj)
 
     } else {

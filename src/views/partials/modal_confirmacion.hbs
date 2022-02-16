@@ -1,0 +1,42 @@
+
+<div class="modal fade" id="modal_confirmacion" tabindex="-1" aria-labelledby="ConfirmacionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><Strong>Dialogo de Confirmación</Strong></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+
+                <h4 class="modal-mensaje"></h4>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success btn-aceptar">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    
+    $('#modal_confirmacion').on('show.bs.modal', function (event) {
+    
+        var button = $(event.relatedTarget)
+        
+        var mensaje = button.data('mensaje')
+
+        var modal = $(this)
+        
+        modal.find('.modal-mensaje').text(mensaje)
+
+    });
+
+    $(".btn-aceptar").click(function(e){
+
+        $("#form").submit();
+
+    })
+
+</script>

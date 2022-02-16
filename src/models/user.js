@@ -17,6 +17,8 @@ const UsuarioSchema = new Schema({
 
 });
 
+
+
 UsuarioSchema.methods.encryptPassword = async (clave) => {
 
     const salt = await bcrypt.genSalt(10);
