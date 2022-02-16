@@ -1,6 +1,6 @@
 
 const Categoria = require('../models/categorias');
-
+const Pedido = require("../models/pedidos");
 
 const ctrl = {};
 
@@ -8,7 +8,9 @@ ctrl.index = async (req,res)=>{
 
     const categorias = await Categoria.find();
 
-    res.render('administrador/categorias.hbs',  {user: req.session, categorias})
+    var pedido_count = pedido_count = await Pedido.count({$nor:[{"estado":"APROBADO"}]})
+
+    res.render('administrador/categorias.hbs',  {user: req.session, pedido_count, categorias})
 
 };
 

@@ -7,6 +7,8 @@ const Pedido = require("../models/pedidos");
 
 ctrl.index = async (req,res)=>{
 
+    meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre","Octubre", "Noviembre","Diciembre"]
+
     const count_usuarios = await User.count({'tipo':'CLIENTE'});
 
     const count_productos = await Producto.count();
@@ -15,27 +17,52 @@ ctrl.index = async (req,res)=>{
 
     const top5_prod =  await Producto.find().sort({"views": "desc"}).limit(5).select("nombre views");
 
-    const top5_users =  await Pedido.find().sort({"total": "desc"}).populate("usuario_id").limit(5).select("correo total");
+    const top5_users =  await Pedido.find().sort({"total": "desc"}).populate("usuario_id").limit(5).select("estado correo total");
 
-    var valores1 = []
-    var encabezado1 = []
+    const ventas = await Pedido.find({"estado":"APROBADO"}).sort({"total": "asc"})   
+
+    var valores1 = [0,0,0,0,0,0,0,0,0,0,0,0]
+    var encabezado1 = meses
 
     var valores2 = []
     var encabezado2 = []
 
+    var valores3 = []
+    var encabezado3 = []
+    
+    var total_ventas = 0
+    var cant_ventas_pendientes = 0
+    var total_ventas_pendientes = 0
+
+    for (v of ventas){
+
+        var fecha = new Date(v.creacion)
+
+        valores1[fecha.getMonth()] += v.total
+
+    }
+
     for(p of top5_prod){
-        valores1.push(p.views)
-        encabezado1.push(p.nombre)
+        valores2.push(p.views)
+        encabezado2.push(p.nombre)
     }
 
     for(u of top5_users){
-        valores2.push(u.total)
-        encabezado2.push(u.usuario_id.correo)
-    }
+        valores3.push(u.total)
+        encabezado3.push(u.usuario_id.correo)
 
-    const cant_ventas = valores2.reduce((prev,sigu)=> prev+sigu,0);
+        if(u.estado != "APROBADO"){
+            cant_ventas_pendientes +=1
+            total_ventas_pendientes += u.total
+        }else{
 
-    res.render('administrador/reportes.hbs',  {user: req.session, cant_ventas, count_usuarios,count_productos, count_categorias, valores1,encabezado1, valores2, encabezado2 })
+            total_ventas += u.total
+        }
+    } 
+
+    var pedido_count = pedido_count = await Pedido.count({$nor:[{"estado":"APROBADO"}]})
+    
+    res.render('administrador/reportes.hbs',  {user: req.session, pedido_count, total_ventas, total_ventas_pendientes, cant_ventas_pendientes, count_usuarios,count_productos, count_categorias, valores1,encabezado1, valores2, encabezado2, valores3, encabezado3 })
 
 };
 

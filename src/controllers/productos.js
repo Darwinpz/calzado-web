@@ -11,7 +11,9 @@ ctrl.index = async (req, res) => {
 
     const productos = await Producto.find();
 
-    res.render('administrador/productos.hbs', { user: req.session, productos })
+    var pedido_count = pedido_count = await Pedido.count({$nor:[{"estado":"APROBADO"}]})
+
+    res.render('administrador/productos.hbs', { user: req.session,pedido_count, productos })
 
 };
 
@@ -33,7 +35,14 @@ ctrl.ver = async (req, res) => {
     }
 
     const carrito_count = await Carrito.count({'usuario_id':req.session._id})
-    const pedido_count = await Pedido.count({'usuario_id':req.session._id});
+
+    var pedido_count = 0
+
+    if(req.session.tipo == "ADMINISTRADOR"){
+        pedido_count = await Pedido.count({$nor:[{"estado":"APROBADO"}]})
+    }else{
+        pedido_count = await Pedido.count({'usuario_id':req.session._id})
+    }
 
     const categoria1 =  await Producto.find({"categorias":{$regex:producto.categorias[0]+"", $options: 'i'}}).sort({"creacion": "asc"}).limit(4);
     const categoria2 =  await Producto.find({"categorias":{$regex:producto.categorias[1]+"", $options: 'i'}}).sort({"creacion": "asc"}).limit(4);
@@ -51,7 +60,9 @@ ctrl.edit = async (req, res) => {
     
     const categorias = await Categoria.find();
 
-    res.render('administrador/productos_edit.hbs', { user: req.session, categorias, producto, items: producto.items})
+    var pedido_count = pedido_count = await Pedido.count({$nor:[{"estado":"APROBADO"}]})
+
+    res.render('administrador/productos_edit.hbs', { user: req.session, pedido_count, categorias, producto, items: producto.items})
 
 };
 
@@ -102,7 +113,9 @@ ctrl.add = async (req, res) => {
 
     const categorias = await Categoria.find();
 
-    res.render('administrador/productos_add.hbs', { user: req.session, categorias })
+    var pedido_count = pedido_count = await Pedido.count({$nor:[{"estado":"APROBADO"}]})
+
+    res.render('administrador/productos_add.hbs', { user: req.session, pedido_count, categorias })
 
 };
 

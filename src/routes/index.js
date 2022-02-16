@@ -50,7 +50,7 @@ module.exports = (app) => {
     app.get('/administrar/contactcenterwhatsapp',isAuthenticated,contacto.contactcenterwhatsapp);
     //app.post('/administrar/contactcenterwhatsapp',isAuthenticated,contacto.enviarwhatsapp);
 
-    app.get('/administrar/reportes', reporte.index);
+    app.get('/administrar/reportes', isAuthenticated, reporte.index);
 
     app.delete('/api/delete/productos/foto',api.eliminar_foto)
     app.post('/api/uploads/productos/', multer.array("fotos",3), api.upload_foto)

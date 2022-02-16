@@ -1,6 +1,10 @@
 <div class="container">
 
-    <h4><strong>Tus pedidos</strong></h4>
+    {{#if (tipo_usuario user.tipo)}}
+        <h4><strong>Pedidos en Verificación</strong></h4>
+    {{else}}
+        <h4><strong>Tus pedidos</strong></h4>
+    {{/if}}
 
     {{#each pedidos}}
 
@@ -36,7 +40,7 @@
                             {{#unless transaccion}}
                             <div class="col">
 
-                                <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_comprobante" data-id="{{_id}}"><i class="fas fa-upload"></i> Subir Transacción</a>
+                                <span class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_comprobante" data-tipo="transacciones" data-id="{{_id}}"><i class="fas fa-upload"></i> Subir Transacción</span>
 
                             </div>
                             {{/unless}}
@@ -44,10 +48,10 @@
 
                         <div class="col">
 
-                            <a class="btn btn-danger btn-eliminar" data-id="{{_id}}">Cancelar Pedido</a>
+                            <span class="btn btn-danger btn-eliminar" data-id="{{_id}}">Cancelar Pedido</span>
 
                         </div>
-
+                        
                         {{#if transaccion}}
                         <div class="col">
 
@@ -55,6 +59,17 @@
 
                         </div>
 
+                        {{/if}}
+
+                        {{#if (tipo_usuario ../user.tipo)}}
+                            {{#if (comparar estado 'VERIFICACIÓN')}}
+                                <div class="col">
+                                    
+                                    <span class="btn btn-success btn-aprobar" data-bs-toggle="modal" data-bs-target="#modal_comprobante" data-tipo="facturas" data-id="{{_id}}">Aprobar Pedido</span>
+                                    
+                                </div>
+                           
+                            {{/if}}
                         {{/if}}
 
                         {{#if (comparar estado 'APROBADO')}}
@@ -125,7 +140,6 @@
 
 <script>
 
-
      $('.btn-eliminar').click(function (e) {
 
         e.preventDefault();
@@ -170,4 +184,4 @@
     <i class="fa fa-arrow-up fa-stack-1x fa-inverse"></i>
   </span>
 </a>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script><script  src="/js/scriptarriba.js"></script>
+<script  src="/js/scriptarriba.js"></script>

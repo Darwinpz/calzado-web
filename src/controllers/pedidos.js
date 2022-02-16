@@ -5,17 +5,28 @@ const Pedido = require("../models/pedidos");
 const fs = require('fs-extra');
 const path = require('path');
 
-ctrl.index = async (req,res)=>{
+ctrl.index = async (req, res) => {
 
-    const carrito_count = await Carrito.count({'usuario_id':req.session._id});
+    const carrito_count = await Carrito.count({ 'usuario_id': req.session._id });
 
-    const pedido_count = await Pedido.count({'usuario_id':req.session._id});
+    pedido_count = 0
 
-    const pedidos =  await Pedido.find({'usuario_id':req.session._id});
+    var pedidos = []
 
-    res.render("pedidos.hbs", {user:req.session,pedidos, carrito_count, pedido_count})
+    if (req.session.tipo == "ADMINISTRADOR") {
+        pedido_count = await Pedido.count({ $nor: [{ "estado": "APROBADO" }] })
 
-};  
+        pedidos = await Pedido.find({"estado": "VERIFICACIÓN" });
+
+    } else {
+        pedido_count = await Pedido.count({ 'usuario_id': req.session._id })
+
+        pedidos = await Pedido.find({ 'usuario_id': req.session._id });
+    }
+
+    res.render("pedidos.hbs", { user: req.session, pedidos, carrito_count, pedido_count })
+
+};
 
 
 ctrl.eliminar = async (req, res) => {
@@ -24,25 +35,25 @@ ctrl.eliminar = async (req, res) => {
 
     if (pedido) {
 
-        if(pedido.estado != "APROBADO"){
+        if (pedido.estado != "APROBADO") {
 
             await pedido.remove();
-            
+
             ruta = path.resolve('src/public/img/transacciones/' + pedido.transaccion);
 
             await fs.unlink(ruta);
 
-            res.json({"message":"eliminado","valor":true});
+            res.json({ "message": "eliminado", "valor": true });
 
-        }else{
+        } else {
 
-            res.json({"message":"El Pedido ya está Aprobado, No se puede Eliminar","valor":false});
+            res.json({ "message": "El Pedido ya está Aprobado, No se puede Eliminar", "valor": false });
 
         }
-       
+
     } else {
 
-        res.json({"message":"No existe el pedido","valor":false});
+        res.json({ "message": "No existe el pedido", "valor": false });
 
     }
 
@@ -50,7 +61,7 @@ ctrl.eliminar = async (req, res) => {
 
 ctrl.upload_transacciones = async (req, res) => {
 
-    const {id_pedido} = req.body
+    const { id_pedido } = req.body
 
     for (const file of req.files) {
 

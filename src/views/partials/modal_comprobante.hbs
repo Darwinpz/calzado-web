@@ -21,6 +21,7 @@
 
             <div class="modal-footer">
                 <input id="id_pedido" style="display: none;" value="">
+                <input id="tipo" style="display: none;" value="">
             </div>
         </div>
     </div>
@@ -35,10 +36,19 @@
         var button = $(event.relatedTarget)
 
         var id = button.data('id')
+        var tipo = button.data('tipo')
 
         var modal = $(this)
+
+        if(tipo == "transacciones"){
+            modal.find('.modal-title').text('Subir Comprobante')
         
+        }else{
+            modal.find('.modal-title').text('Subir Factura')
+        }
+
         document.getElementById("id_pedido").value = id
+        document.getElementById("id_pedido").value = tipo
 
     });
 
@@ -79,6 +89,8 @@
             this.on('sending', function (file, xhr, formData) {
 
                 formData.append("id_pedido", document.getElementById("id_pedido").value);
+                
+                formData.append("tipo", document.getElementById("tipo").value);
 
             });
 

@@ -13,7 +13,13 @@ ctrl.index = async (req,res)=>{
 
     const carrito_count = await Carrito.count({'usuario_id':req.session._id})
 
-    const pedido_count = await Pedido.count({'usuario_id':req.session._id})
+    var pedido_count = 0
+
+    if(req.session.tipo == "ADMINISTRADOR"){
+        pedido_count = await Pedido.count({$nor:[{"estado":"APROBADO"}]})
+    }else{
+        pedido_count = await Pedido.count({'usuario_id':req.session._id})
+    }
 
     res.render('damas.hbs', {user: req.session, categorias, productos, carrito_count, pedido_count})
 

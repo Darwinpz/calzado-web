@@ -237,7 +237,13 @@ ctrl.perfil = async (req,res)=>{
 
     const carrito_count = await Carrito.count({'usuario_id':req.session._id})
 
-    const pedido_count = await Pedido.count({'usuario_id':req.session._id})
+    var pedido_count = 0
+
+    if(req.session.tipo == "ADMINISTRADOR"){
+        pedido_count = await Pedido.count({$nor:[{"estado":"APROBADO"}]})
+    }else{
+        pedido_count = await Pedido.count({'usuario_id':req.session._id})
+    }
 
     res.render("perfil.hbs", {user:req.session, usuario, carrito_count, pedido_count})
 
@@ -295,7 +301,9 @@ ctrl.all = async (req,res)=>{
 
     const usuarios = await User.find({ $nor: [{'_id':req.session._id}]}).select("-clave");
 
-    res.render("administrador/usuarios.hbs", {user:req.session, usuarios})
+    var pedido_count = pedido_count = await Pedido.count({$nor:[{"estado":"APROBADO"}]})
+
+    res.render("administrador/usuarios.hbs", {user:req.session,pedido_count ,usuarios})
 
 };
 
@@ -305,7 +313,9 @@ ctrl.ver = async (req,res)=>{
 
     const usuario = await User.findOne({'_id':id}).select("-clave");
 
-    res.render("perfil.hbs", {user:req.session, usuario})
+    var pedido_count = pedido_count = await Pedido.count({$nor:[{"estado":"APROBADO"}]})
+
+    res.render("perfil.hbs", {user:req.session, pedido_count, usuario})
 
 };
 

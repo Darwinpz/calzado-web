@@ -15,15 +15,23 @@ ctrl.inicio = async (req,res)=>{
 
     const carrito_count = await Carrito.count({'usuario_id':req.session._id})
 
-    const pedido_count = await Pedido.count({'usuario_id':req.session._id})
+    var pedido_count = 0
+
+    if(req.session.tipo == "ADMINISTRADOR"){
+        pedido_count = await Pedido.count({$nor:[{"estado":"APROBADO"}]})
+    }else{
+        pedido_count = await Pedido.count({'usuario_id':req.session._id})
+    }
 
     res.render("index.hbs", {user:req.session, ofertas, damas, caballeros, carrito_count, pedido_count})
 
 };
 
-ctrl.administrar = (req,res)=>{
+ctrl.administrar = async(req,res)=>{
 
-    res.render("administrador/index.hbs", {user:req.session})
+    var pedido_count = pedido_count = await Pedido.count({$nor:[{"estado":"APROBADO"}]})
+
+    res.render("administrador/index.hbs", {user:req.session, pedido_count})
 
 };
 

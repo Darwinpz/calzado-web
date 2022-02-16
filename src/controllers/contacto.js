@@ -7,44 +7,52 @@ const ctrl = {};
 
 const Carrito = require('../models/carrito')
 
-ctrl.index = async (req,res)=>{
+ctrl.index = async (req, res) => {
 
-    const carrito_count = await Carrito.count({'usuario_id':req.session._id})
+  const carrito_count = await Carrito.count({ 'usuario_id': req.session._id })
 
-    const pedido_count = await Pedido.count({'usuario_id':req.session._id})
+  var pedido_count = 0
 
-    res.render('contacto.hbs',  {user: req.session, carrito_count, pedido_count})
+  if (req.session.tipo == "ADMINISTRADOR") {
+    pedido_count = await Pedido.count({ $nor: [{ "estado": "APROBADO" }] })
+  } else {
+    pedido_count = await Pedido.count({ 'usuario_id': req.session._id })
+  }
 
-};
-
-ctrl.contactcentercorreo = async (req,res)=>{
-
-
-    res.render('administrador/contactcentercorreo.hbs',  {user: req.session})
-
-};
-
-
-ctrl.contactcenterwhatsapp = async (req,res)=>{
-
-
-  res.render('administrador/contactcenterwhatsapp.hbs',  {user: req.session})
+  res.render('contacto.hbs', { user: req.session, carrito_count, pedido_count })
 
 };
 
-ctrl.enviarcorreo = async (req,res)=>{
-    let data = req.body;
-    var clientes = await User.find();
+ctrl.contactcentercorreo = async (req, res) => {
 
-    clientes.forEach( async elemento => {
-        console.log(elemento.correo);
-        try{
-            await transporter.sendMail({
-                from: 'Calzado Ivan La Febre" <calzadoivanlafebre@gmail.com>', // sender address
-                to: elemento.correo, // list of receivers
-                subject: data.asunto, // Subject line
-                text: "Hello world?", // plain text body
-                html: `<table style="max-width: 600px; padding: 10px; margin:0 auto; border-collapse: collapse;">
+  var pedido_count = pedido_count = await Pedido.count({$nor:[{"estado":"APROBADO"}]})
+
+  res.render('administrador/contactcentercorreo.hbs', { user: req.session, pedido_count })
+
+};
+
+
+ctrl.contactcenterwhatsapp = async (req, res) => {
+
+  var pedido_count = pedido_count = await Pedido.count({$nor:[{"estado":"APROBADO"}]})
+
+  res.render('administrador/contactcenterwhatsapp.hbs', { user: req.session, pedido_count })
+
+};
+
+ctrl.enviarcorreo = async (req, res) => {
+  let data = req.body;
+  var clientes = await User.find();
+
+  clientes.forEach(async elemento => {
+    console.log(elemento.correo);
+    try {
+      await transporter.sendMail({
+        from: 'Calzado Ivan La Febre" <calzadoivanlafebre@gmail.com>', // sender address
+        to: elemento.correo, // list of receivers
+        subject: data.asunto, // Subject line
+        text: "Hello world?", // plain text body
+        html: `<table style="max-width: 600px; padding: 10px; margin:0 auto; border-collapse: collapse;">
                 <tr>
                   <td style="background-color: #ecf0f1">
                     <div style="color: #34495e; margin: 4% 10% 2%; text-align: justify;font-family: sans-serif">
@@ -62,15 +70,15 @@ ctrl.enviarcorreo = async (req,res)=>{
                   </td>
                 </tr>
               </table>`, // html body
-              });                  
-        }catch (e) {
-            console.log(e);
-        }
-       
+      });
+    } catch (e) {
+      console.log(e);
+    }
 
-    });
 
-    res.render('administrador/contactcentercorreo.hbs',  {user: req.session})
+  });
+
+  res.render('administrador/contactcentercorreo.hbs', { user: req.session })
 
 }
 
