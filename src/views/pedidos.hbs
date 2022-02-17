@@ -1,9 +1,23 @@
 <div class="container">
 
     {{#if (tipo_usuario user.tipo)}}
-        <h4><strong>Pedidos en Verificación</strong></h4>
+    <div class="row">
+
+        <div class="col col-md-12 col-lg-3 col-sm-12">
+
+            <select class="form-select fw-bold fs-5 mt-3 btn-pedidos border border-primary" id="select_pedidos"
+                name="pedidos" required>
+                <option value="verificacion">Pedidos en Verificación</option>
+                <option value="pendiente">Pedidos Pendientes</option>
+                <option value="aprobado">Pedidos Aprobados</option>
+            </select>
+
+        </div>
+
+    </div>
+
     {{else}}
-        <h4><strong>Tus pedidos</strong></h4>
+    <h4><strong>Tus pedidos</strong></h4>
     {{/if}}
 
     {{#each pedidos}}
@@ -37,45 +51,63 @@
                         </div>
 
                         {{#if (comparar estado 'PENDIENTE')}}
-                            {{#unless transaccion}}
-                            <div class="col">
+                        {{#unless transaccion}}
+                        <div class="col">
 
-                                <span class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_comprobante" data-tipo="transacciones" data-id="{{_id}}"><i class="fas fa-upload"></i> Subir Transacción</span>
+                            <span class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_comprobante"
+                                data-tipo="transacciones" data-id="{{_id}}"><i class="fas fa-upload"></i> Subir
+                                Transacción</span>
 
-                            </div>
-                            {{/unless}}
+                        </div>
+                        {{/unless}}
                         {{/if}}
 
+                        {{#if (tipo_usuario ../user.tipo)}}
+                        <div class="col">
+
+                            <a class="btn btn-outline-success" target="_blank" href="/administrar/usuarios/{{usuario_id._id}}"><i
+                                    class="fas fa-user"></i> Datos Usuario</a>
+
+                        </div>
+                        {{/if}}
+
+                        {{#unless (comparar estado 'APROBADO')}}
                         <div class="col">
 
                             <span class="btn btn-danger btn-eliminar" data-id="{{_id}}">Cancelar Pedido</span>
 
                         </div>
-                        
+                        {{/unless}}
+
                         {{#if transaccion}}
                         <div class="col">
 
-                            <a class="btn btn-outline-primary" target="_blank" href="/img/transacciones/{{transaccion}}"><i class="fas fa-file"></i> Ver Transacción</a>
+                            <a class="btn btn-outline-primary" target="_blank"
+                                href="/img/transacciones/{{transaccion}}"><i class="fas fa-file"></i> Ver
+                                Transacción</a>
 
                         </div>
 
                         {{/if}}
 
                         {{#if (tipo_usuario ../user.tipo)}}
-                            {{#if (comparar estado 'VERIFICACIÓN')}}
-                                <div class="col">
-                                    
-                                    <span class="btn btn-success btn-aprobar" data-bs-toggle="modal" data-bs-target="#modal_comprobante" data-tipo="facturas" data-id="{{_id}}">Aprobar Pedido</span>
-                                    
-                                </div>
-                           
-                            {{/if}}
+                        {{#if (comparar estado 'VERIFICACIÓN')}}
+                        <div class="col">
+
+                            <span class="btn btn-success btn-aprobar" data-bs-toggle="modal"
+                                data-bs-target="#modal_comprobante" data-tipo="facturas" data-id="{{_id}}">Aprobar
+                                Pedido</span>
+
+                        </div>
+
+                        {{/if}}
                         {{/if}}
 
                         {{#if (comparar estado 'APROBADO')}}
                         <div class="col">
 
-                            <a class="btn btn-outline-success"><i class="fas fa-file"></i> Ver Factura</a>
+                            <a class="btn btn-outline-success" target="_blank" href="/img/facturas/{{factura}}"><i
+                                    class="fas fa-file"></i> Ver Factura</a>
 
                         </div>
                         {{/if}}
@@ -104,7 +136,9 @@
 
                         <div class="col-4">
 
-                            <p><strong>Modelo:</strong> {{producto}} - <strong>Color:</strong> {{color}} - <strong>Talla:</strong> {{talla}}</p>
+                            <p><strong>Modelo:</strong> {{producto}} - <strong>Color:</strong> {{color}} -
+                                <strong>Talla:</strong> {{talla}}
+                            </p>
 
                         </div>
 
@@ -140,7 +174,21 @@
 
 <script>
 
-     $('.btn-eliminar').click(function (e) {
+    if ("{{tipo}}") {
+
+        document.getElementById("select_pedidos").value = "{{tipo}}"
+
+    }
+
+
+    $('.btn-pedidos').change(function (e) {
+
+        window.location.href = "/pedidos/" + document.getElementById("select_pedidos").value
+
+    });
+
+
+    $('.btn-eliminar').click(function (e) {
 
         e.preventDefault();
 
@@ -156,12 +204,12 @@
 
                 url: '/pedidos/eliminar',
                 type: 'DELETE',
-                data: { id},
-                success: function(data){
+                data: { id },
+                success: function (data) {
 
-                    if(data.valor){
+                    if (data.valor) {
                         window.location.reload()
-                    }else{
+                    } else {
                         alert(data.message)
                     }
 
@@ -174,14 +222,3 @@
     });
 
 </script>
-
-
-<link rel="stylesheet" href="/css/style.css">
-
-<a class="ir-arriba"  javascript:void(0) title="Volver arriba">
-  <span class="fa-stack">
-    <i class="fa fa-circle fa-stack-2x"></i>
-    <i class="fa fa-arrow-up fa-stack-1x fa-inverse"></i>
-  </span>
-</a>
-<script  src="/js/scriptarriba.js"></script>

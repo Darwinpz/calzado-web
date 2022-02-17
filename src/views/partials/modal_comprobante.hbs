@@ -10,7 +10,7 @@
             </div>
             <div class="modal-body">
 
-                <p class="text-muted mt-1 mb-1">Archivos tipo: .jpg, .jpeg, .png</p>
+                <p class="text-muted mt-1 mb-1">Archivos tipo: .jpg, .jpeg, .pdf</p>
                 <p class="text-muted mt-1 mb-1" id="max-archivos">Cantidad Máxima de archivos: 1</p>
 
                 <div class="dropzone" id="dropzoneForm">
@@ -48,7 +48,7 @@
         }
 
         document.getElementById("id_pedido").value = id
-        document.getElementById("id_pedido").value = tipo
+        document.getElementById("tipo").value = tipo
 
     });
 
@@ -58,7 +58,7 @@
         autoProcessQueue: true,
         addRemoveLinks: true,
         maxFiles: 1,
-        acceptedFiles: ".jpg, .jpeg, .png",
+        acceptedFiles: ".jpg, .jpeg, .pdf",
         paramName: "foto",
 
         init: function () {

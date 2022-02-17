@@ -96,6 +96,7 @@ module.exports = (app) => {
     app.post('/carrito/pedir', isAuthenticated, carrito.pedir);
 
     app.get('/pedidos', isAuthenticated, pedidos.index);
+    app.get('/pedidos/:tipo', isAuthenticated, pedidos.filtro);
     app.delete('/pedidos/eliminar', isAuthenticated, pedidos.eliminar);
 
     app.post('/partials/correoelectronico', isAuthenticated, contacto.enviarcorreo);

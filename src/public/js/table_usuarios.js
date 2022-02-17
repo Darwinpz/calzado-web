@@ -5,9 +5,13 @@ $(document).ready(function () {
         "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" //Para que salga en español
         },
-        "lengthMenu": [5, 10, 15,20]
+        "lengthMenu": [5, 10, 15, 20]
     });
+
+
 });
+
+
 
 $('.btn-eliminar').click(function (e) {
 
@@ -17,15 +21,15 @@ $('.btn-eliminar').click(function (e) {
 
     let cedula = $this.data('cedula')
 
-    const response = confirm('¿Estas seguro de eliminar el usuario con cédula: '+cedula+'?');
+    const response = confirm('¿Estas seguro de eliminar el usuario con cédula: ' + cedula + '?');
 
     if (response) {
-        
+
         $.ajax({
 
             url: '/administrar/usuarios',
             type: 'DELETE',
-            data: {cedula}
+            data: { cedula }
 
         }).done(function () {
 

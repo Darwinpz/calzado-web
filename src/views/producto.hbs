@@ -241,6 +241,12 @@
                         button.className= "btn btn-outline-success"
                         button.disabled = true
 
+                        var txt = document.getElementById("nav_carrito").innerText
+
+                        var count_carrito = parseInt(txt.split("(")[1].split(")")[0].toString()) +1 
+
+                        document.getElementById("nav_carrito").innerHTML = `<strong>Carrito(${count_carrito})</strong>`
+
                     }else{
 
                         alert("Stock no disponible")

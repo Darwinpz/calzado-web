@@ -39,6 +39,7 @@ ctrl.ingresar = async (req, res) => {
             req.session._id = user._id;
             req.session.cedula = user.cedula;
             req.session.tipo = user.tipo;
+            req.session.correo = user.correo;
 
             res.redirect("/");
 
@@ -95,7 +96,7 @@ ctrl.enviarcorreo = async (req,res)=>{
                           <p style="margin: 2px; font-size: 15px">
                             LA DURACIÓN DE ESTE ENLACE ES DE 15 MINUTOS, PASADO ESTE TIEMPO DEBERA GENRAR UN NUEVO ENLACE</p>
                           <div style="width: 100%;margin:20px 0; display: inline-block;text-align: center">
-                            <a style="text-decoration: none; border-radius: 5px; padding: 11px 23px; color: white; background-color: #3498db" href="http://localhost:3000/cambiarpassword/${token}">CLIC AQUÍ</a>	
+                            <a style="text-decoration: none; border-radius: 5px; padding: 11px 23px; color: white; background-color: #3498db" href="http://calzado-web.herokuapp.com/cambiarpassword/${token}">CLIC AQUÍ</a>	
                           </div>
                           <p style="color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0">Calzado Ivan La Febre</p>
                         </div>

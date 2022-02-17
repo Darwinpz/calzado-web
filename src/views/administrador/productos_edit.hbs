@@ -33,11 +33,11 @@
                         <div class="col col-sm-12 col-md-12 col-lg-4 mb-2 col-12">
 
                             <label class="form-label" id="imagenes"><b>*Imágenes del Producto:</b>
-                            
-                            {{#each producto.foto}}
-                            <input type="text" name="foto[]" style="display: none;" class="form-control"
-                                value="{{this}}">
-                            {{/each}}
+
+                                {{#each producto.foto}}
+                                <input type="text" name="foto[]" style="display: none;" class="form-control"
+                                    value="{{this}}">
+                                {{/each}}
 
                             </label>
 
@@ -55,8 +55,7 @@
                                         {{#each producto.foto}}
                                         <div class="col-md-4 mb-2">
                                             <div class="card text-end">
-                                                <label class="text-danger btn-eliminar" data-id="{{this}}"
-                                                    type="button"
+                                                <label class="text-danger btn-eliminar" data-id="{{this}}" type="button"
                                                     style="font-size: 15px; position: absolute;margin-left: 5px;">X</label>
                                                 <img src="/img/products/{{this}}" class="img-fluid card-img-top ">
                                             </div>
@@ -254,7 +253,7 @@
 
                 url: '/api/delete/productos/foto',
                 type: 'DELETE',
-                data: { id: "{{producto._id}}", foto}
+                data: { id: "{{producto._id}}", foto }
 
             }).done(function () {
 
