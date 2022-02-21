@@ -7,7 +7,7 @@
 
             <select class="form-select fw-bold fs-5 mt-3 btn-pedidos border border-primary" id="select_pedidos"
                 name="pedidos" required>
-                <option value="verificacion">Pedidos en Verificación</option>
+                <option value="verificación">Pedidos en Verificación</option>
                 <option value="pendiente">Pedidos Pendientes</option>
                 <option value="aprobado">Pedidos Aprobados</option>
             </select>
@@ -50,6 +50,7 @@
 
                         </div>
 
+                        {{#unless (tipo_usuario ../user.tipo)}}
                         {{#if (comparar estado 'PENDIENTE')}}
                         {{#unless transaccion}}
                         <div class="col">
@@ -61,6 +62,7 @@
                         </div>
                         {{/unless}}
                         {{/if}}
+                        {{/unless}}
 
                         {{#if (tipo_usuario ../user.tipo)}}
                         <div class="col">

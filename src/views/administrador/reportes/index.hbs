@@ -22,7 +22,7 @@
 
         </div>
 
-        <div class="col col-lg-3 col-md-6    mb-2">
+        <div class="col col-lg-3 col-md-6 mb-2">
 
             <div class="card" style="box-shadow: 0 2px 10px rgba(0,0,0,.075);  border-top: 4px solid #0dc45f;">
 
@@ -45,7 +45,7 @@
 
                 <div class="card-body">
 
-                    <span class="card-title"><Strong>Clientes</Strong></span>
+                    <a href="/administrar/reportes/clientes"><span class="card-title"><Strong>Clientes</Strong></span></a>
 
                     <h3 class="text-muted mt-2">{{count_usuarios}}</h3>
 
@@ -61,7 +61,7 @@
 
                 <div class="card-body">
 
-                    <span class="card-title"><Strong>Productos</Strong></span>
+                    <a href="/administrar/reportes/productos"><span class="card-title"><Strong>Productos</Strong></span></a>
 
                     <h3 class="text-muted mt-2">{{count_productos}}</h3>
 
@@ -92,6 +92,7 @@
 
 
     <div class="row mb-3">
+
         <div class="col">
 
             <div class="card">
@@ -276,57 +277,6 @@
 
         </div>
 
-
-    </div>
-
-    <div class="row mb-3 ">
-
-        <div class="col">
-
-            <div class="card">
-
-                <div class="card-header">
-
-                    <h5 class="text-center"><strong>Género Con Mayor nivel de Pedidos</strong></h5>
-
-                </div>
-
-                <div class="card-body">
-
-                    <div class="container" style="width: 40%;">
-
-                        <canvas id="Chart_ventas_genero" width="100%" height="25"></canvas>
-
-                        <script>
-                        var g4 = "{{valores4}}"
-                        var ec4 = "{{encabezado4}}"
-                        const ctx4 = document.getElementById('Chart_ventas_genero').getContext('2d');
-                        const myChart4 = new Chart(ctx4, {
-                            type: 'doughnut',
-                            data: {
-                                labels: ec4.split(","),
-                                datasets: [{
-                                    label: 'Estadísticas de Genero',
-                                    data: g4.split(","),
-                                    backgroundColor: [
-                                        'rgb(54, 162, 235)',
-                                        'rgb(255, 99, 132)',
-                                        'rgb(255, 205, 86)'
-                                    ],
-                                    hoverOffset: 4
-                                }]
-                            }
-                        });
-                    </script>
-
-                    </div>
-                    
-                    
-                </div>
-
-            </div>
-
-        </div>
 
     </div>
 

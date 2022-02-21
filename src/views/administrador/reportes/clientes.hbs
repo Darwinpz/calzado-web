@@ -1,0 +1,118 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+
+<div class="container">
+
+    <a type="button" href="/administrar/reportes" class="btn btn-primary btn-lg "><i class="fas fa-chevron-left"></i>
+        Volver</a><br><br>
+
+    <div class="row mb-3 ">
+
+        <div class="col">
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h5 class="text-center"><strong>Clientes por Generos</strong></h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="Chart_clientes_views" width="100%" height="25"></canvas>
+                    <script>
+                        var g1 = "{{valores1}}"
+                        var ec1 = "{{encabezado1}}"
+                        const ctx1 = document.getElementById('Chart_clientes_views').getContext('2d');
+                        const myChart1 = new Chart(ctx1, {
+                            type: 'bar',
+                            data: {
+                                labels: ec1.split(","),
+                                datasets: [{
+                                    label: 'Genero',
+                                    data: g1.split(","),
+                                    backgroundColor: [
+                                        'rgba(255, 99, 132, 0.2)',
+                                        'rgba(54, 162, 235, 0.2)',
+                                        'rgba(255, 206, 86, 0.2)',
+                                        'rgba(75, 192, 192, 0.2)',
+                                        'rgba(153, 102, 255, 0.2)'
+                                    ],
+                                    borderColor: [
+                                        'rgba(255, 99, 132, 1)',
+                                        'rgba(54, 162, 235, 1)',
+                                        'rgba(255, 206, 86, 1)',
+                                        'rgba(75, 192, 192, 1)',
+                                        'rgba(153, 102, 255, 1)'
+                                    ],
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                indexAxis: 'y',
+                                
+                            }
+                        });
+                    </script>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="row mb-3 ">
+
+        <div class="col-6">
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h5 class="text-center"><strong>Género Con Mayor cantidad de Pedidos</strong></h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="container" style="width: 50%;">
+
+                        <canvas id="Chart_ventas_genero" width="100%" height="50"></canvas>
+
+                        <script>
+                            var g2 = "{{valores2}}"
+                            var ec2 = "{{encabezado2}}"
+                            const ctx2 = document.getElementById('Chart_ventas_genero').getContext('2d');
+                            const myChart2 = new Chart(ctx2, {
+                                type: 'doughnut',
+                                data: {
+                                    labels: ec2.split(","),
+                                    datasets: [{
+                                        label: 'Estadísticas de Genero',
+                                        data: g2.split(","),
+                                        backgroundColor: [
+                                            'rgb(54, 162, 235)',
+                                            'rgb(255, 99, 132)',
+                                            'rgb(255, 205, 86)'
+                                        ],
+                                        hoverOffset: 4
+                                    }]
+                                }
+                            });
+                        </script>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

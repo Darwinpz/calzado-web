@@ -65,7 +65,7 @@ ctrl.eliminar = async (req, res) => {
 
             }
 
-            var cliente_buscado = await User.findOne({ "correo": req.session.correo });
+            var cliente_buscado = await User.findOne({ "_id": pedido.usuario_id });
 
             try {
                 await transporter.sendMail({
@@ -164,6 +164,68 @@ ctrl.upload_transacciones = async (req, res) => {
 
                 pedido.factura = file.filename;
                 pedido.estado = "APROBADO"
+
+                try {
+
+                    var cliente_buscado = await User.findOne({ "_id": pedido.usuario_id });
+
+                    await transporter.sendMail({
+                        from: 'Calzado Ivan La Febre" <calzadoivanlafebre@gmail.com>', // sender address
+                        to: cliente_buscado.correo, // list of receivers
+                        subject: "Pedido N°: " + pedido._id + " -APROBADO-", // Subject line
+                        text: "Hello world?", // plain text body
+                        html: `<table style="max-width: 100%; padding: 10px; margin:0 auto; border-collapse: collapse;">
+                        <tr>
+                          <td style="background-color: #ecf0f1">
+                            <div style="color: #34495e; margin: 4% 10% 2%; text-align: justify;font-family: sans-serif">
+                              <h2 style="color: #e67e22; margin: 0 0 7px">HOLA ${cliente_buscado.nombres}</h2>
+                              <p style="margin: 2px; font-size: 15px">
+                                La familia que conforma Calzado Ivan La Febre te agradece por preferirnos, y deseamos que tu experiencia con nuestro sitio web sea la mejor.</p></br>
+                                <h4 class="text-center" style="text-align: center;"><strong>DETALLE DEL PEDIDO</strong></h4>
+                                <table style="width: 100%; padding: 5px; margin:0 auto; border-collapse: collapse;">
+                                    <thead>
+                                        <tr>
+                                        <th class="text-center" scope="col">Cantidad</th>
+                                        <th class="text-center" scope="col">Producto</th>
+                                        <th class="text-center" scope="col">foto</th>
+                                        <th class="text-center" scope="col">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-center">
+                                        ${pedido.items.map(({ cantidad, producto, color, talla, foto, precio }) =>
+                            `<tr>
+                                            <td>x${cantidad}</td>
+                                            <td><strong>Modelo:</strong> ${producto} - <strong>Color:</strong> ${color} - <strong>Talla:</strong> ${talla}</td>
+                                            <td><img style="height: 50px; width: 100px; max-height: 50px; max-width: 100px;" src="http://calzado-web.herokuapp.com/img/products/${foto[0]}"></td>
+                                            <td>$ ${precio}</td>
+                                            </tr>`
+                        )
+                            }
+                                        
+                                    </tbody>    
+            
+                                </table>
+            
+                                <div class="row text-end">
+                                    <div class="col">
+                                        <span><strong>Total del Pedido: </strong>$ ${pedido.total}</span>
+                                    </div>
+                                </div>
+                                
+                                <h4 class="text-center" style="text-align: center;color: green;"><strong>TU PEDIDO FUÉ APROBADO</strong></h4>
+                                
+                                <div style="width: 100%;margin:20px 0; display: inline-block;text-align: center">
+                                <a style="text-decoration: none; border-radius: 5px; padding: 11px 23px; color: white; background-color: #3498db" href="http://calzado-web.herokuapp.com/">Ingresar Al Sitio</a>	
+                              </div>
+                              <p style="color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0">Calzado Ivan La Febre</p>
+                            </div>
+                          </td>
+                        </tr>
+                      </table>`, // html body
+                    });
+                } catch (e) {
+                    console.log(e);
+                }
 
             } else {
 
