@@ -4,7 +4,7 @@ const Producto = require('../models/productos');
 const Categoria = require('../models/categorias');
 const User = require('../models/user');
 const Pedido = require("../models/pedidos");
-const e = require('express');
+const Calendario = require("../models/calendario");
 
 ctrl.index = async (req, res) => {
 
@@ -87,10 +87,11 @@ ctrl.index = async (req, res) => {
         encabezado3.push(t.usuario[0].correo)
     }
 
+    const calendario = await Calendario.find();
 
     var pedido_count = pedido_count = await Pedido.count({ $nor: [{ "estado": "APROBADO" }] })
 
-    res.render('administrador/reportes/index.hbs', { user: req.session, pedido_count, total_ventas, total_ventas_pendientes, cant_ventas_pendientes, count_usuarios, count_productos, count_categorias, valores1, encabezado1, valores2, encabezado2, valores3, encabezado3 })
+    res.render('administrador/reportes/index.hbs', { user: req.session, calendario, pedido_count, total_ventas, total_ventas_pendientes, cant_ventas_pendientes, count_usuarios, count_productos, count_categorias, valores1, encabezado1, valores2, encabezado2, valores3, encabezado3 })
 
 };
 
@@ -118,22 +119,30 @@ ctrl.clientes = async (req, res) => {
 
     }
 
-    res.render('administrador/reportes/clientes.hbs', { user: req.session, valores1, encabezado1: encabezado2, valores2, encabezado2 })
+    var pedido_count = pedido_count = await Pedido.count({ $nor: [{ "estado": "APROBADO" }] })
+
+
+    res.render('administrador/reportes/clientes.hbs', { user: req.session,pedido_count, valores1, encabezado1: encabezado2, valores2, encabezado2 })
 
 }
 
 
 ctrl.productos = async (req, res) => {
 
-
     const valores1 = []
     const encabezado1 = []
+    const valores2 = []
+    const encabezado2 = []
+    const valores3 = []
+    const encabezado3 = []
 
-    var top10_prod = await Pedido.find().limit(10)
+    const top10_prod = await Producto.find().sort({ "views": "desc" }).limit(10).select("nombre views");
 
+    const top10_likes = await Producto.find().sort().limit(10);
 
+    var top10_ped = await Pedido.find().limit(10)
 
-    for (p of top10_prod) {
+    for (p of top10_ped) {
 
         for (i of p.items) {
 
@@ -142,6 +151,11 @@ ctrl.productos = async (req, res) => {
 
         }
 
+    }
+
+    for (p of top10_prod) {
+        valores2.push(p.views)
+        encabezado2.push(p.nombre)
     }
 
     const new_encabezado1 = [...new Set(encabezado1)]
@@ -158,9 +172,21 @@ ctrl.productos = async (req, res) => {
         }
         new_valores1[pos] += parseFloat(valores1[i])
         i++
+
     }
 
-    res.render('administrador/reportes/productos.hbs', { user: req.session, valores1: new_valores1, encabezado1:new_encabezado1 })
+    for (p of top10_likes) {
+
+        encabezado3.push(p.nombre)
+
+        valores3.push(p.likes.length)
+        
+    }
+
+    var pedido_count = pedido_count = await Pedido.count({ $nor: [{ "estado": "APROBADO" }] })
+
+
+    res.render('administrador/reportes/productos.hbs', { user: req.session, pedido_count, valores1: new_valores1, encabezado1:new_encabezado1, valores2, encabezado2, valores3, encabezado3 })
 
 }
 

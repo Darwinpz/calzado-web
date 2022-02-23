@@ -14,7 +14,7 @@
             <tr>
                 <th scope="row">{{nombre}}</th>
                 <td><img src="/img/products/{{imagen foto}}" class="img-fluid" style="height: 50px; width: 100px; max-height: 50px; max-width: 100px;"></td>
-                <td>{{likes}}</td>
+                <td>{{likes.length}}</td>
                 <td>{{views}}</td>
                 <td><a type="button" href="/producto/{{_id}}" target="__blank" class="btn btn-primary"><i class="fas fa-eye"></i></a>
                     <a type="button" class="btn btn-danger btn-eliminar" data-id="{{_id}}"><i class="fas fa-trash"></i></a> </td>

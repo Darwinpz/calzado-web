@@ -7,7 +7,7 @@ const ProductoSchema = new Schema({
     descripcion: {type: String},
     foto: {type: []},
     views: {type: Number,default: 0},
-    likes: {type: Number, default: 0},
+    likes: {type: []},
     categorias: {type: []},
     items: {type: []},
     creacion: {type: Date, default: Date.now}

@@ -45,14 +45,17 @@ module.exports = (app) => {
     app.get('/administrar/contactcentercorreo',isAuthenticated,contacto.contactcentercorreo);
     app.post('/administrar/contactcentercorreo',isAuthenticated,contacto.enviarcorreo);
     app.get('/administrar/calendario', isAuthenticated, calendario.index);
-
+    app.post('/administrar/calendario', isAuthenticated, calendario.add);
+    app.delete('/administrar/calendario', isAuthenticated, calendario.eliminar);
+    app.get('/administrar/calendario/ver', isAuthenticated, calendario.ver);
+    app.post('/administrar/calendario/update', isAuthenticated, calendario.update);
 
     app.get('/administrar/contactcenterwhatsapp',isAuthenticated,contacto.contactcenterwhatsapp);
     //app.post('/administrar/contactcenterwhatsapp',isAuthenticated,contacto.enviarwhatsapp);
 
-    app.get('/administrar/reportes', reporte.index);
-    app.get('/administrar/reportes/clientes', reporte.clientes);
-    app.get('/administrar/reportes/productos', reporte.productos);
+    app.get('/administrar/reportes', isAuthenticated, reporte.index);
+    app.get('/administrar/reportes/clientes',isAuthenticated, reporte.clientes);
+    app.get('/administrar/reportes/productos',isAuthenticated, reporte.productos);
 
     app.delete('/api/delete/productos/foto',api.eliminar_foto)
     app.post('/api/uploads/productos/', multer.array("fotos",3), api.upload_foto)
@@ -86,6 +89,8 @@ module.exports = (app) => {
     app.get('/damas/filtros/:campos',damas.filtro);
 
     app.get('/contacto', contacto.index);
+    app.post('/producto/like',productos.like);
+    app.post('/producto/unlike',productos.unlike);
     app.get('/producto/:id',productos.ver);
 
     app.get('/perfil',isAuthenticated,usuarios.perfil);

@@ -1,0 +1,108 @@
+<div class="modal fade" id="sala_calendario" tabindex="-1" aria-labelledby="SalaCalendarioLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title"><Strong>Crear Evento</Strong></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body row g-3">
+
+                    <div class="col-md-6 ">
+                        <label class="form-label fs-5"><b>* Titulo del evento:</b></label>
+                        <input type="text" class="form-control fs-5 " id="title" name="title"
+                            placeholder="Ejem. Revisión de Stock" value="" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fs-5"><b>* Estado:</b></label>
+                        <select class="form-select fs-5 mt-3" id="estado" name="estado" required>
+                            <option disabled selected value="">Estado</option>
+                            <option value="PROCESO">En Proceso</option>
+                            <option value="INCOMPLETO">Incompleto</option>
+                            <option value="COMPLETO">Completo</option>
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fs-5"><b>* Fecha de Inicio:</b></label>
+                        <input class="form-control" placeholder="yyyy-mm-dd" name="start" readonly id="start"
+                            required />
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fs-5"><b>* Fecha de Fin:</b></label>
+                        <input class="form-control" placeholder="yyyy-mm-dd" name="end" readonly id="end" required />
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="btn-crear" class="btn btn-success btn-crear">Guardar Evento</button>
+                    <button type="button" id="btn-update" class="btn btn-success btn-update">Actualizar Evento</button>
+                    <button type="button" id="btn-eliminar" class="btn btn-danger btn-eliminar">Eliminar Evento</button>
+                    <p style="display: none;" id="codigo" required></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+
+    $(".btn-eliminar").click(function (e) {
+
+        e.preventDefault();
+
+        var id = document.getElementById("codigo").innerText
+
+        const response = confirm('¿Estas seguro de eliminar el evento?');
+
+        if (response) {
+
+            $.ajax({
+
+                url: '/administrar/calendario',
+                type: 'DELETE',
+                data: { id }
+
+            }).done(function () {
+
+                window.location.reload();
+
+            });
+
+        }
+
+
+    })
+
+
+    $(".btn-update").click(function (e) {
+
+        e.preventDefault();
+
+        var id = document.getElementById("codigo").innerText
+        var estado = document.getElementById("estado").value
+        var title = document.getElementById("title").value
+
+        $.ajax({
+
+            url: '/administrar/calendario/update',
+            type: 'POST',
+            data: { id, estado, title }
+
+        }).done(function () {
+
+            window.location.reload();
+
+        });
+
+
+    })
+
+
+</script>

@@ -18,6 +18,46 @@ ctrl.index = async (req, res) => {
 };
 
 
+ctrl.like = async (req, res) => {
+
+    const producto = await Producto.findOne({'_id':req.body.id});
+
+    if(producto){
+
+        producto.likes.push({"user":req.body.usuario})
+
+        await producto.save()
+
+        res.json(true);
+
+    } else {
+
+        res.json(false);
+
+    }
+
+}
+
+ctrl.unlike = async (req, res) => {
+
+    const producto = await Producto.findOne({'_id':req.body.id});
+
+    if(producto){
+
+        producto.likes.pull({"user":req.body.usuario})
+
+        await producto.save()
+
+        res.json(true);
+
+    } else {
+
+        res.json(false);
+
+    }
+
+}
+
 ctrl.ver = async (req, res) => {
 
     const producto = await Producto.findOne({'_id':req.params.id});
@@ -48,8 +88,15 @@ ctrl.ver = async (req, res) => {
     const categoria2 =  await Producto.find({"categorias":{$regex:producto.categorias[1]+"", $options: 'i'}}).sort({"creacion": "asc"}).limit(4);
     const categoria3 =  await Producto.find({"categorias":{$regex:producto.categorias[3]+"", $options: 'i'}}).sort({"creacion": "asc"}).limit(4);
     
+    var like = producto.likes.filter(e=> e.user == req.session._id)
+    var existe_like = false
+    
 
-    res.render('producto.hbs', { user: req.session, producto, tallas: [...new Set(tallas)], carrito_count, pedido_count, categoria1,categoria2,categoria3})
+    if (like.length > 0){
+        existe_like = true
+    }
+
+    res.render('producto.hbs', { user: req.session, producto, tallas: [...new Set(tallas)], existe_like, carrito_count, pedido_count, categoria1,categoria2,categoria3})
 
 };
 

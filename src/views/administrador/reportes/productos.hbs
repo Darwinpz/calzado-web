@@ -1,4 +1,3 @@
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
 
 <div class="container">
@@ -73,6 +72,135 @@
             </div>
 
         </div>
+
+    </div>
+
+    <div class="row mb-3">
+
+        <div class="col-6">
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h5 class="text-center"><strong>Top 10 Productos más vistos</strong></h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="Chart_Product_views" width="100%" height="50"></canvas>
+                    <script>
+                        var g2 = "{{valores2}}"
+                        var ec2 = "{{encabezado2}}"
+                        const ctx2 = document.getElementById('Chart_Product_views').getContext('2d');
+                        const myChart2 = new Chart(ctx2, {
+                            type: 'bar',
+                            data: {
+                                labels: ec2.split(","),
+                                datasets: [{
+                                    label: 'Top 10 Productos más Vistas',
+                                    data: g2.split(","),
+                                    backgroundColor: [
+                                        'rgba(255, 99, 132, 0.2)',
+                                        'rgba(54, 162, 235, 0.2)',
+                                        'rgba(255, 206, 86, 0.2)',
+                                        'rgba(75, 192, 192, 0.2)',
+                                        'rgba(153, 102, 255, 0.2)'
+                                    ],
+                                    borderColor: [
+                                        'rgba(255, 99, 132, 1)',
+                                        'rgba(54, 162, 235, 1)',
+                                        'rgba(255, 206, 86, 1)',
+                                        'rgba(75, 192, 192, 1)',
+                                        'rgba(153, 102, 255, 1)'
+                                    ],
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                indexAxis: 'y',
+                                scales: {
+                                    x: {
+                                        ticks: {
+                                            // Include a dollar sign in the ticks
+                                            callback: function (value, index, ticks) {
+                                                return 'vistas ' + value;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    </script>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-6">
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h5 class="text-center"><strong>Top 10 Productos más Likes</strong></h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="Chart_Product_likes" width="100%" height="50"></canvas>
+                    <script>
+                        var g3 = "{{valores3}}"
+                        var ec3 = "{{encabezado3}}"
+                        const ctx3 = document.getElementById('Chart_Product_likes').getContext('2d');
+                        const myChart3 = new Chart(ctx3, {
+                            type: 'bar',
+                            data: {
+                                labels: ec3.split(","),
+                                datasets: [{
+                                    label: 'Top 10 Productos más Likes',
+                                    data: g3.split(","),
+                                    backgroundColor: [
+                                        'rgba(255, 99, 132, 0.2)',
+                                        'rgba(54, 162, 235, 0.2)',
+                                        'rgba(255, 206, 86, 0.2)',
+                                        'rgba(75, 192, 192, 0.2)',
+                                        'rgba(153, 102, 255, 0.2)'
+                                    ],
+                                    borderColor: [
+                                        'rgba(255, 99, 132, 1)',
+                                        'rgba(54, 162, 235, 1)',
+                                        'rgba(255, 206, 86, 1)',
+                                        'rgba(75, 192, 192, 1)',
+                                        'rgba(153, 102, 255, 1)'
+                                    ],
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                indexAxis: 'y',
+                                scales: {
+                                    x: {
+                                        ticks: {
+                                            // Include a dollar sign in the ticks
+                                            callback: function (value, index, ticks) {
+                                                return 'likes ' + value;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    </script>
+                </div>
+
+            </div>
+
+        </div>
+
 
     </div>
 

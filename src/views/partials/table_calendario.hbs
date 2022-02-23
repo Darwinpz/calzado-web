@@ -1,0 +1,28 @@
+<div class="table-responsive " style="margin-top: auto;">
+    <table id="table_calendario" width="100%" cellspacing="0" class="table table-hover ">
+        <thead>
+            <tr>
+                <th class="text-center" scope="col">Título</th>
+                <th class="text-center" scope="col">Inicio</th>
+                <th class="text-center" scope="col">Fin</th>
+                <th class="text-center" scope="col">Estado</th>
+            </tr>
+        </thead>
+        <tbody class="text-center">
+            {{#each calendario}}
+            <tr>
+                <th scope="row">{{title}}</th>
+                <td>{{start}}</td>
+                <td>{{end}}</td>
+                <td>{{estado}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+
+<script src="/js/table_calendario.js"></script>

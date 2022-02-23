@@ -17,6 +17,24 @@
     </div>
 
     {{else}}
+
+    <div class="row mb-3">
+
+        <div class="col text-center">
+
+            <div class="card border border-danger">
+                <div class="card-header">
+                    <h4><strong>Datos para Depósito</strong></h4>
+
+                </div>
+                <div class="card-body">
+                    <h5>Banco Pichincha - Cuenta de Ahorros - Ivan LaFebre - 2205884438</h5>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
     <h4><strong>Tus pedidos</strong></h4>
     {{/if}}
 
@@ -67,8 +85,9 @@
                         {{#if (tipo_usuario ../user.tipo)}}
                         <div class="col">
 
-                            <a class="btn btn-outline-success" target="_blank" href="/administrar/usuarios/{{usuario_id._id}}"><i
-                                    class="fas fa-user"></i> Datos Usuario</a>
+                            <a class="btn btn-outline-success" target="_blank"
+                                href="/administrar/usuarios/{{usuario_id._id}}"><i class="fas fa-user"></i> Datos
+                                Usuario</a>
 
                         </div>
                         {{/if}}

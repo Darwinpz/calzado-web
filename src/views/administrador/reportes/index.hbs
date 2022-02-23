@@ -197,7 +197,7 @@
                                         ticks: {
                                             // Include a dollar sign in the ticks
                                             callback: function (value, index, ticks) {
-                                                return '$' + value;
+                                                return 'vistas ' + value;
                                             }
                                         }
                                     }
@@ -277,6 +277,32 @@
 
         </div>
 
+
+    </div>
+
+    <div class="row">
+
+        <div class="col">
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h5 class="text-center"><strong>Eventos de Calendario</strong></h5>
+
+                </div>
+
+                <div class="card-body">
+            
+                    {{> table_calendario}}
+            
+
+                </div>
+
+            </div>
+
+
+        </div>
 
     </div>
 
