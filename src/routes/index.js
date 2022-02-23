@@ -51,7 +51,7 @@ module.exports = (app) => {
     app.post('/administrar/calendario/update', isAuthenticated, calendario.update);
 
     app.get('/administrar/contactcenterwhatsapp',isAuthenticated,contacto.contactcenterwhatsapp);
-    //app.post('/administrar/contactcenterwhatsapp',isAuthenticated,contacto.enviarwhatsapp);
+    app.post('/administrar/contactcenterwhatsapp',isAuthenticated,contacto.enviarwhatsapp);
 
     app.get('/administrar/reportes', isAuthenticated, reporte.index);
     app.get('/administrar/reportes/clientes',isAuthenticated, reporte.clientes);

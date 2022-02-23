@@ -4,6 +4,12 @@ const Pedido = require("../models/pedidos")
 
 const ctrl = {};
 
+const accountSid = 'AC0c629bdc8869ef8e831cbbaa89c899b5';
+const authToken = '0e2d86f62c074ca719151f3549eba7e1';
+const twilio = require('twilio')
+
+const client = new twilio(accountSid, authToken);
+
 
 const Carrito = require('../models/carrito')
 
@@ -25,16 +31,33 @@ ctrl.index = async (req, res) => {
 
 ctrl.contactcentercorreo = async (req, res) => {
 
-  var pedido_count = pedido_count = await Pedido.count({$nor:[{"estado":"APROBADO"}]})
+  var pedido_count = pedido_count = await Pedido.count({ $nor: [{ "estado": "APROBADO" }] })
 
   res.render('administrador/contactcentercorreo.hbs', { user: req.session, pedido_count })
 
 };
 
+ctrl.enviarwhatsapp = async (req, res) => {
+
+
+  const { numero, mensaje } = req.body
+
+  var pedido_count = pedido_count = await Pedido.count({ $nor: [{ "estado": "APROBADO" }] })
+
+  client.messages.create({
+    body: mensaje,
+    from: 'whatsapp:+14155238886',
+    to: 'whatsapp:+593'+numero.substring(1)
+  }).then(message => console.log(message.sid)) 
+  .done();
+  
+  res.render('administrador/contactcenterwhatsapp.hbs', { success_msg: "Mensaje enviado satisfactoriamente", user: req.session, pedido_count })
+
+}
 
 ctrl.contactcenterwhatsapp = async (req, res) => {
 
-  var pedido_count = pedido_count = await Pedido.count({$nor:[{"estado":"APROBADO"}]})
+  var pedido_count = pedido_count = await Pedido.count({ $nor: [{ "estado": "APROBADO" }] })
 
   res.render('administrador/contactcenterwhatsapp.hbs', { user: req.session, pedido_count })
 
