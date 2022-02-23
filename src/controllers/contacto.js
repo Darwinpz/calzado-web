@@ -6,9 +6,7 @@ const ctrl = {};
 
 const accountSid = 'AC0c629bdc8869ef8e831cbbaa89c899b5';
 const authToken = '0e2d86f62c074ca719151f3549eba7e1';
-const twilio = require('twilio')
-
-const client = new twilio(accountSid, authToken);
+const client = require('twilio')(accountSid, authToken); 
 
 
 const Carrito = require('../models/carrito')
@@ -47,7 +45,7 @@ ctrl.enviarwhatsapp = async (req, res) => {
   client.messages.create({
     body: mensaje,
     from: 'whatsapp:+14155238886',
-    to: 'whatsapp:+593'+numero.substring(1)
+    to: 'whatsapp:+593968766671'
   }).then(message => console.log(message.sid)) 
   .done();
   
